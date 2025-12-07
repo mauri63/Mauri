@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lion App</title>
+    <style>
+        /* RESET MOBILE */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            min-height: 100vh;
+            padding: 20px 15px;
+            overflow-x: hidden;
+        }
+        
+        /* HEADER GRANDE E VISIBILE */
+        .app-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 10px;
+        }
+        
+        .app-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .app-title {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #FFD93D, #FF8C00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .app-subtitle {
+            font-size: 16px;
+            color: #cbd5e1;
+            max-width: 280px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+        
+        /* PULSANTE PRINCIPALE - GRANDE E TATTILE */
+        .main-action {
+            display: block;
+            width: 90%;
+            max-width: 320px;
+            margin: 30px auto;
+            padding: 20px;
+            background: linear-gradient(145deg, #FF8C00, #FF6B00);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 140, 0, 0.3);
+            transition: all 0.2s;
+            user-select: none;
+        }
+        
+        .main-action:active {
+            transform: scale(0.98);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+        
+        /* SEZIONE LINK RAPIDI */
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFD93D;
+            margin: 35px 0 20px 0;
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .link-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .link-card:active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .link-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            height: 50px;
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+        }
+        
+        .link-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .link-desc {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.3;
+        }
+        
+        /* NOTIZIE - OTTIMIZZATE PER MOBILE */
+        .news-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .news-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .news-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFD93D;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .news-content {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+        
+        /* FOOTER */
+        .app-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
+        /* ANIMAZIONI */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* PULSANTE AGGIORNAMENTO */
+        .update-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+            z-index: 100;
+        }
+        
+        /* MEDIA QUERIES */
+        @media (max-width: 360px) {
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .app-title {
+                font-size: 28px;
+            }
+            
+            .main-action {
+                font-size: 20px;
+                padding: 18px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            body {
+                max-width: 400px;
+                margin: 0 auto;
+                border-left: 1px solid rgba(255,255,255,0.1);
+                border-right: 1px solid rgba(255,255,255,0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- APP HEADER -->
+    <header class="app-header fade-in">
+        <div class="app-icon">🦁</div>
+        <h1 class="app-title">LION APP</h1>
+        <p class="app-subtitle">Tutto il potere del leone nel tuo telefono</p>
+    </header>
+    
+    <!-- PULSANTE PRINCIPALE -->
+    <button class="main-action fade-in" onclick="roar()">
+        <span id="btnText">RUGGISCI! 🔊</span>
+    </button>
+    
+    <!-- LINK RAPIDI -->
+    <div class="section-title fade-in">
+        <span>🔗</span> ACCESSI RAPIDI
+    </div>
+    
+    <div class="links-grid fade-in" id="linksContainer">
+        <!-- I link verranno caricati qui dinamicamente -->
+    </div>
+    
+    <!-- NOTIZIE -->
+    <div class="section-title fade-in">
+        <span>📰</span> ULTIME NOTIZIE
+    </div>
+    
+    <div class="news-container fade-in" id="newsContainer">
+        <!-- Le notizie verranno caricate qui -->
+    </div>
+    
+    <!-- FOOTER -->
+    <footer class="app-footer fade-in">
+        <p>Creato con ❤️ per i veri leoni</p>
+        <p style="font-size: 12px; margin-top: 5px;">Tocca l'icona 🔄 per aggiornare i contenuti</p>
+    </footer>
+    
+    <!-- PULSANTE AGGIORNAMENTO -->
+    <button class="update-btn" onclick="caricaContenuti()">
+        🔄
+    </button>
+    
+    <script>
+        // CONFIGURAZIONE - MODIFICA QUESTI DATI
+        const config = {
+            app: {
+                titolo: "LION APP",
+                sottotitolo: "Tutto il potere del leone nel tuo telefono",
+                footer: "Creato con ❤️ per i veri leoni"
+            },
+            colori: {
+                sfondo: "#0f172a",
+                titolo: "#FFD93D",
+                testo: "#FFFFFF",
+                pulsante: "#FF8C00"
+            },
+            pulsante_principale: {
+                testo: "RUGGISCI! 🔊",
+                testo_click: "🦁 ROAR! 🦁"
+            },
+            // 🔥 ICONE OTTIMIZZATE PER MOBILE
+            links: [
+                {
+                    nome: "SITO WEB",
+                    url: "https://mauri63.github.io/Mauri/",
+                    icona: "🌐",
+                    desc: "Il mio sito principale"
+                },
+                {
+                    nome: "VIDEO",
+                    url: "https://youtube.com",
+                    icona: "🎬",
+                    desc: "Video e contenuti"
+                },
+                {
+                    nome: "MUSICA",
+                    url: "https://spotify.com",
+                    icona: "🎵",
+                    desc: "Playlist e brani"
+                },
+                {
+                    nome: "FOTO",
+                    url: "https://instagram.com",
+                    icona: "📸",
+                    desc: "Galleria fotografica"
+                },
+                {
+                    nome: "DOWNLOAD",
+                    url: "https://drive.google.com",
+                    icona: "⬇️",
+                    desc: "File da scaricare"
+                },
+                {
+                    nome: "CONTATTI",
+                    url: "mailto:tuo@email.com",
+                    icona: "📞",
+                    desc: "Scrivimi qui"
+                }
+            ],
+            // 📱 CONTENUTI OTTIMIZZATI PER MOBILE
+            contenuti: [
+                {
+                    titolo: "🎉 BENVENUTO!",
+                    descrizione: "L'app ufficiale è finalmente qui! Nuovi contenuti ogni settimana."
+                },
+                {
+                    titolo: "📱 OTTIMIZZATA",
+                    descrizione: "Interfaccia studiata per essere veloce e intuitiva su telefono."
+                },
+                {
+                    titolo: "⚡ VELOCITÀ",
+                    descrizione: "Caricamento istantaneo e navigazione fluida."
+                }
+            ]
+        };
+        
+        // FUNZIONE PRINCIPALE
+        function roar() {
+            const btn = document.querySelector('.main-action');
+            const btnText = document.getElementById('btnText');
+            
+            // Cambia testo
+            btnText.textContent = config.pulsante_principale.testo_click;
+            
+            // Effetto vibrazione (se supportato)
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 50, 100]);
+            }
+            
+            // Cambia colore temporaneo
+            btn.style.background = 'linear-gradient(145deg, #FF6B00, #FF4500)';
+            
+            // Ripristina dopo 1 secondo
+            setTimeout(() => {
+                btnText.textContent = config.pulsante_principale.testo;
+                btn.style.background = 'linear-gradient(145deg, #FF8C00, #FF6B00)';
+            }, 1000);
+        }
+        
+        // CARICA I LINK
+        function caricaLinks() {
+            const container = document.getElementById('linksContainer');
+            let html = '';
+            
+            config.links.forEach(link => {
+                html += `
+                <a href="${link.url}" target="_blank" class="link-card">
+                    <div class="link-icon">${link.icona}</div>
+                    <div class="link-name">${link.nome}</div>
+                    <div class="link-desc">${link.desc}</div>
+                </a>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // CARICA NOTIZIE
+        function caricaNotizie() {
+            const container = document.getElementById('newsContainer');
+            let html = '';
+            
+            config.contenuti.forEach((notizia, index) => {
+                const emoji = notizia.titolo.substring(0, 2); // Prendi l'emoji dal titolo
+                const titoloSenzaEmoji = notizia.titolo.substring(2).trim();
+                
+                html += `
+                <div class="news-item">
+                    <div class="news-title">
+                        <span>${emoji}</span>
+                        <span>${titoloSenzaEmoji}</span>
+                    </div>
+                    <div class="news-content">${notizia.descrizione}</div>
+                </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // CARICA TUTTI I CONTENUTI
+        function caricaContenuti() {
+            // Aggiorna titolo e sottotitolo
+            document.querySelector('.app-title').textContent = config.app.titolo;
+            document.querySelector('.app-subtitle').textContent = config.app.sottotitolo;
+            document.querySelector('.app-footer p').textContent = config.app.footer;
+            
+            // Aggiorna pulsante
+            document.getElementById('btnText').textContent = config.pulsante_principale.testo;
+            
+            // Carica link e notizie
+            caricaLinks();
+            caricaNotizie();
+            
+            // Mostra notifica
+            showNotification('📱 App aggiornata!');
+        }
+        
+        // NOTIFICA TEMPORANEA
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(16, 185, 129, 0.95);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideDown 0.3s ease-out;
+            `;
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideUp 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+            
+            // Aggiungi le animazioni CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideDown {
+                    from { top: -50px; opacity: 0; }
+                    to { top: 20px; opacity: 1; }
+                }
+                @keyframes slideUp {
+                    from { top: 20px; opacity: 1; }
+                    to { top: -50px; opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // CARICAMENTO INIZIALE
+        window.onload = function() {
+            caricaContenuti();
+            
+            // Aggiungi animazioni di ingresso
+            document.querySelectorAll('.fade-in').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        };
+        
+        // SUPPORTO VIBRAZIONE
+        if (navigator.vibrate) {
+            console.log('Vibrazione supportata!');
+        }
+    </script>
+</body>
+</html>
