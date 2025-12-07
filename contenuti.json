@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "titolo": "Benvenuto! ",
+      "descrizione": "Questa è la prima notizia dell'app Lion",
+      "immagine": "https://via.placeholder.com/400x200/FF8C00/FFFFFF? text=Lion+App"
+    },
+    {
+      "titolo": "Novità della settimana",
+      "descrizione": "Abbiamo aggiunto nuove funzioni fantastiche! ",
+      "immagine": "https://via.placeholder.com/400x200/FFD93D/000000?text=News"
+    },
+    {
+      "titolo": "Contattaci",
+      "descrizione": "Scrivici per qualsiasi domanda o suggerimento",
+      "immagine": ""
+    }
+  ]
+}
