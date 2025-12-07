@@ -2,34 +2,52 @@
   "app": {
     "titolo": "🦁 LION APP",
     "sottotitolo": "Il potere del leone nelle tue mani",
-    "footer": "Creato con ❤️ e Python"
+    "footer": "Creato con ❤️ e Python",
+    "icona": "🦁"
   },
   "colori": {
-    "sfondo": "#1a1a2e",        // Sfondo principale
-    "titolo": "#FFD93D",         // Colore titoli
-    "testo": "#FFFFFF",          // Colore testo normale
-    "pulsante": "#FF8C00",       // Colore pulsanti
-    "card": "rgba(255,255,255,0.1)",  // Sfondo card/riquadri
-    "link": "#58a6ff"            // Colore link
+    "sfondo": "#1a1a2e",
+    "titolo": "#FFD93D",
+    "testo": "#FFFFFF",
+    "pulsante": "#FF8C00",
+    "link": "#58a6ff"
   },
   "pulsante_principale": {
     "testo": "RUGGISCI! 🔊",
     "testo_click": "🦁 ROAR! 🦁",
-    "suono": "roar.mp3",         // File audio quando si clicca
-    "vibrazione": true           // Vibrazione sul telefono
+    "vibrazione": true
   },
-  "sezioni": [                   // PUOI AGGIUNGERE SEZIONI!
+  "sezioni": [],
+  "links": [
     {
-      "nome": "Musica",
-      "icona": "🎵",
-      "contenuti": []
+      "nome": "Il mio Sito Web",
+      "url": "https://mauri63.github.io/Mauri/",
+      "icona": "🌐"
     },
     {
-      "nome": "Video",
-      "icona": "🎬", 
-      "contenuti": []
+      "nome": "YouTube",
+      "url": "https://youtube.com",
+      "icona": "📺"
+    },
+    {
+      "nome": "Instagram",
+      "url": "https://instagram.com",
+      "icona": "📸"
     }
   ],
-  "links": [],                   // Link rapidi
-  "contenuti": []                // Notizie/messaggi
+  "contenuti": [
+    {
+      "titolo": "🎉 Benvenuto!",
+      "descrizione": "Grazie per aver scaricato Lion App! Qui troverai tutti i contenuti aggiornati."
+    },
+    {
+      "titolo": "📢 Novità della settimana",
+      "descrizione": "Nuovi contenuti disponibili! Clicca sui link sopra per scoprirli."
+    }
+  ],
+  "tema": "default",
+  "orologio": false,
+  "messaggi": {
+    "aggiornamento": "App aggiornata con successo! 🎉"
+  }
 }
