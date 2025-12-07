@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lion App - Pannello Admin</title>
+    <title>Lion App - Pannello Admin COMPLETO</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -13,7 +13,7 @@
             color: white;
             padding: 20px;
         }
-        .container { max-width: 800px; margin: 0 auto; }
+        .container { max-width: 1000px; margin: 0 auto; }
         h1 { color: #FFD93D; text-align: center; margin-bottom: 10px; }
         .subtitle { text-align: center; color: #888; margin-bottom: 30px; }
         .section {
@@ -21,18 +21,31 @@
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
+            border: 2px solid rgba(255,255,255,0.05);
         }
-        .section h2 { color: #FFD93D; margin-bottom: 15px; }
+        .section h2 { 
+            color: #FFD93D; 
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section h2 i { font-size: 20px; }
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #ddd; }
-        input, textarea {
+        label { display: block; margin-bottom: 5px; color: #ddd; font-weight: 500; }
+        input, textarea, select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: none;
             border-radius: 8px;
             background: rgba(255,255,255,0.15);
             color: white;
             font-size: 16px;
+            transition: all 0.3s;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: 2px solid #FF8C00;
+            background: rgba(255,255,255,0.2);
         }
         textarea { min-height: 80px; resize: vertical; }
         .btn {
@@ -44,112 +57,378 @@
             font-size: 16px;
             cursor: pointer;
             margin: 5px;
+            transition: all 0.3s;
+            font-weight: bold;
         }
-        .btn:hover { background: #e67e00; }
+        .btn:hover { background: #e67e00; transform: translateY(-2px); }
         .btn-add { background: #28a745; }
         .btn-remove { background: #dc3545; padding: 8px 15px; font-size: 14px; }
+        .btn-color { width: 40px; height: 40px; padding: 0; border-radius: 50%; }
         .item-card {
             background: rgba(0,0,0,0.2);
-            padding: 15px;
+            padding: 20px;
             border-radius: 10px;
-            margin: 10px 0;
+            margin: 15px 0;
+            border-left: 4px solid #FF8C00;
         }
         .output-box {
             background: #0d1117;
             border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
+            padding: 20px;
+            margin-top: 20px;
             overflow-x: auto;
+            border: 2px solid #30363d;
         }
-        .output-box pre { color: #58a6ff; font-size: 13px; white-space: pre-wrap; }
+        .output-box pre { 
+            color: #58a6ff; 
+            font-size: 13px; 
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+        }
         .instructions {
             background: rgba(255, 217, 61, 0.1);
             border-left: 4px solid #FFD93D;
-            padding: 15px;
+            padding: 20px;
             margin: 20px 0;
             border-radius: 0 10px 10px 0;
+            font-size: 14px;
         }
-        .instructions a { color: #58a6ff; }
+        .instructions a { color: #58a6ff; text-decoration: none; }
+        .instructions a:hover { text-decoration: underline; }
         .copy-notice {
             background: #28a745;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
-            margin-top: 10px;
+            margin-top: 15px;
             display: none;
             text-align: center;
+            font-weight: bold;
+            animation: fadeIn 0.5s;
         }
-        .loading { text-align: center; padding: 20px; color: #FFD93D; }
-        .error { color: #ff6b6b; }
+        .color-picker-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 5px;
+        }
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+        .loading { 
+            text-align: center; 
+            padding: 40px; 
+            color: #FFD93D; 
+            font-size: 18px;
+        }
+        .error { color: #ff6b6b; font-weight: bold; }
+        .success { color: #28a745; font-weight: bold; }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            background: #FF8C00;
+            font-weight: bold;
+        }
+        .tab:hover:not(.active) {
+            background: rgba(255,255,255,0.2);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #28a745;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .preview-mobile {
+            background: #000;
+            border-radius: 20px;
+            padding: 20px;
+            width: 300px;
+            margin: 0 auto;
+            border: 10px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .preview-content {
+            background: #1a1a2e;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 500px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Lion App - Pannello Admin</h1>
-        <p class="subtitle">Modifica la tua app senza ricompilare!</p>
+        <h1>🦁 Lion App - Pannello Admin COMPLETO</h1>
+        <p class="subtitle">Personalizza TUTTA la tua app mobile!</p>
 
         <div class="instructions">
-            <strong>Come usare:</strong><br>
-            1. Modifica le impostazioni qui sotto<br>
-            2. Clicca "Genera JSON"<br>
-            3. Copia il JSON<br>
-            4. Clicca "Modifica su GitHub"<br>
-            5. Incolla e salva<br>
-            6. Apri l'app e clicca "Aggiorna"!
+            <strong>🎯 Nuove funzionalità:</strong><br>
+            • Personalizza colori (sfondo, testo, pulsanti)<br>
+            • Aggiungi/rimuovi sezioni (Musica, Video, ecc.)<br>
+            • Gestisci contenuti dinamici<br>
+            • Anteprima in tempo reale<br>
+            • Impostazioni avanzate per mobile
         </div>
 
-        <div id="loadingMsg" class="loading">Caricamento configurazione...</div>
+        <div id="loadingMsg" class="loading">
+            <div>📡 Caricamento configurazione...</div>
+            <div style="font-size:14px; margin-top:10px; color:#aaa">Controllo file config.json</div>
+        </div>
 
         <div id="mainContent" style="display:none;">
-            <div class="section">
-                <h2>Impostazioni App</h2>
-                <div class="form-group">
-                    <label>Titolo</label>
-                    <input type="text" id="appTitolo">
+            <!-- TABS NAVIGAZIONE -->
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('basics')">⚙️ Base</div>
+                <div class="tab" onclick="showTab('colors')">🎨 Colori</div>
+                <div class="tab" onclick="showTab('sections')">📁 Sezioni</div>
+                <div class="tab" onclick="showTab('links')">🔗 Links</div>
+                <div class="tab" onclick="showTab('content')">📰 Contenuti</div>
+                <div class="tab" onclick="showTab('advanced')">⚡ Avanzate</div>
+                <div class="tab" onclick="showTab('preview')">📱 Anteprima</div>
+            </div>
+
+            <!-- TAB 1: IMPOSTAZIONI BASE -->
+            <div id="tab-basics" class="tab-content">
+                <div class="section">
+                    <h2><i>⚙️</i> Impostazioni App Base</h2>
+                    <div class="form-group">
+                        <label>Nome App (Titolo)</label>
+                        <input type="text" id="appTitolo" placeholder="Es: Lion App">
+                    </div>
+                    <div class="form-group">
+                        <label>Sottotitolo/Benvenuto</label>
+                        <input type="text" id="appSottotitolo" placeholder="Es: Il potere del leone nelle tue mani">
+                    </div>
+                    <div class="form-group">
+                        <label>Testo Footer</label>
+                        <input type="text" id="appFooter" placeholder="Es: © 2024 Lion App">
+                    </div>
+                    <div class="form-group">
+                        <label>Icona App (Emoji)</label>
+                        <input type="text" id="appIcona" placeholder="🦁" maxlength="2">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Sottotitolo</label>
-                    <input type="text" id="appSottotitolo">
-                </div>
-                <div class="form-group">
-                    <label>Footer</label>
-                    <input type="text" id="appFooter">
+
+                <div class="section">
+                    <h2><i>🎯</i> Pulsante Principale</h2>
+                    <div class="form-group">
+                        <label>Testo Pulsante</label>
+                        <input type="text" id="btnTesto" placeholder="Es: RUGGISCI! 🔊">
+                    </div>
+                    <div class="form-group">
+                        <label>Testo quando cliccato</label>
+                        <input type="text" id="btnClick" placeholder="Es: 🦁 ROAR! 🦁">
+                    </div>
+                    <div class="form-group toggle-switch">
+                        <label>Attiva vibrazione sul click</label>
+                        <label class="switch">
+                            <input type="checkbox" id="btnVibrazione" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
-            <div class="section">
-                <h2>Pulsante Principale</h2>
-                <div class="form-group">
-                    <label>Testo</label>
-                    <input type="text" id="btnTesto">
+            <!-- TAB 2: COLORI -->
+            <div id="tab-colors" class="tab-content" style="display:none;">
+                <div class="section">
+                    <h2><i>🎨</i> Personalizzazione Colori</h2>
+                    <p style="color:#aaa; margin-bottom:15px;">Clicca sui quadrati per scegliere i colori</p>
+                    
+                    <div class="form-group">
+                        <label>Colore Sfondo Principale</label>
+                        <div class="color-picker-container">
+                            <input type="color" id="colorSfondo" value="#1a1a2e">
+                            <div class="color-preview" id="previewSfondo" style="background:#1a1a2e"></div>
+                            <input type="text" id="textSfondo" value="#1a1a2e">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Colore Titoli</label>
+                        <div class="color-picker-container">
+                            <input type="color" id="colorTitoli" value="#FFD93D">
+                            <div class="color-preview" id="previewTitoli" style="background:#FFD93D"></div>
+                            <input type="text" id="textTitoli" value="#FFD93D">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Colore Testo Normale</label>
+                        <div class="color-picker-container">
+                            <input type="color" id="colorTesto" value="#FFFFFF">
+                            <div class="color-preview" id="previewTesto" style="background:#FFFFFF"></div>
+                            <input type="text" id="textTesto" value="#FFFFFF">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Colore Pulsanti</label>
+                        <div class="color-picker-container">
+                            <input type="color" id="colorPulsanti" value="#FF8C00">
+                            <div class="color-preview" id="previewPulsanti" style="background:#FF8C00"></div>
+                            <input type="text" id="textPulsanti" value="#FF8C00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Colore Links</label>
+                        <div class="color-picker-container">
+                            <input type="color" id="colorLinks" value="#58a6ff">
+                            <div class="color-preview" id="previewLinks" style="background:#58a6ff"></div>
+                            <input type="text" id="textLinks" value="#58a6ff">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Testo quando cliccato</label>
-                    <input type="text" id="btnClick">
+            </div>
+
+            <!-- TAB 3: SEZIONI -->
+            <div id="tab-sections" class="tab-content" style="display:none;">
+                <div class="section">
+                    <h2><i>📁</i> Gestione Sezioni</h2>
+                    <p>Aggiungi sezioni alla tua app (Musica, Video, Foto, ecc.)</p>
+                    <div id="sezioniContainer"></div>
+                    <button class="btn btn-add" onclick="aggiungiSezione()">+ Aggiungi Sezione</button>
                 </div>
             </div>
 
-            <div class="section">
-                <h2>Links</h2>
-                <div id="linksContainer"></div>
-                <button class="btn btn-add" onclick="aggiungiLink()">+ Aggiungi Link</button>
+            <!-- TAB 4: LINKS -->
+            <div id="tab-links" class="tab-content" style="display:none;">
+                <div class="section">
+                    <h2><i>🔗</i> Links Rapidi</h2>
+                    <div id="linksContainer"></div>
+                    <button class="btn btn-add" onclick="aggiungiLink()">+ Aggiungi Link</button>
+                </div>
             </div>
 
-            <div class="section">
-                <h2>Messaggi / Notizie</h2>
-                <div id="contenutiContainer"></div>
-                <button class="btn btn-add" onclick="aggiungiContenuto()">+ Aggiungi Messaggio</button>
+            <!-- TAB 5: CONTENUTI -->
+            <div id="tab-content" class="tab-content" style="display:none;">
+                <div class="section">
+                    <h2><i>📰</i> Notizie & Contenuti</h2>
+                    <div id="contenutiContainer"></div>
+                    <button class="btn btn-add" onclick="aggiungiContenuto()">+ Aggiungi Notizia</button>
+                </div>
             </div>
 
+            <!-- TAB 6: AVANZATE -->
+            <div id="tab-advanced" class="tab-content" style="display:none;">
+                <div class="section">
+                    <h2><i>⚡</i> Impostazioni Avanzate</h2>
+                    <div class="form-group">
+                        <label>URL Immagine Sfondo (opzionale)</label>
+                        <input type="url" id="bgImage" placeholder="https://.../immagine.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>Tema App</label>
+                        <select id="temaApp">
+                            <option value="default">Default (Scuro)</option>
+                            <option value="light">Chiaro</option>
+                            <option value="dark">Molto Scuro</option>
+                            <option value="colorful">Colorato</option>
+                        </select>
+                    </div>
+                    <div class="form-group toggle-switch">
+                        <label>Modalità Orologio (solo per alcune app)</label>
+                        <label class="switch">
+                            <input type="checkbox" id="modalitaOrologio">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Messaggio di Aggiornamento</label>
+                        <textarea id="msgAggiornamento" placeholder="Scrivi qui il messaggio che compare quando l'utente aggiorna l'app"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 7: ANTEPRIMA -->
+            <div id="tab-preview" class="tab-content" style="display:none;">
+                <div class="section">
+                    <h2><i>📱</i> Anteprima Mobile</h2>
+                    <div class="preview-mobile">
+                        <div class="preview-content" id="mobilePreview">
+                            <h3 style="color: #FFD93D;" id="previewTitolo">LION APP</h3>
+                            <p id="previewSottotitolo">Il potere del leone nelle tue mani</p>
+                            <div style="margin: 20px 0;">
+                                <button style="background: #FF8C00; color: white; padding: 15px 30px; border: none; border-radius: 10px; font-size: 18px; font-weight: bold;" id="previewPulsante">RUGGISCI! 🔊</button>
+                            </div>
+                            <div id="previewLinksList"></div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="aggiornaAnteprima()">🔄 Aggiorna Anteprima</button>
+                </div>
+            </div>
+
+            <!-- GENERAZIONE JSON -->
             <div class="section">
-                <h2>Genera Configurazione</h2>
-                <button class="btn" onclick="generaJSON()">Genera JSON</button>
-                <button class="btn" onclick="copiaJSON()">Copia</button>
-                <!-- CAMBIA QUESTO LINK SE USI config.json O contenuti.json -->
+                <h2><i>📦</i> Genera & Salva Configurazione</h2>
+                <button class="btn" onclick="generaJSON()">🔄 Genera JSON</button>
+                <button class="btn" onclick="copiaJSON()">📋 Copia JSON</button>
                 <a href="https://github.com/mauri63/Mauri/edit/main/config.json" target="_blank">
-                    <button class="btn">Modifica su GitHub</button>
+                    <button class="btn">💾 Salva su GitHub</button>
                 </a>
-                <div class="copy-notice" id="copyNotice">Copiato negli appunti!</div>
+                <button class="btn" onclick="salvaLocalmente()">💿 Salva Localmente</button>
+                
+                <div class="copy-notice" id="copyNotice">✅ Copiato negli appunti! Incolla su GitHub</div>
+                
                 <div class="output-box">
+                    <h4 style="color:#FFD93D; margin-bottom:10px;">Configurazione JSON:</h4>
                     <pre id="jsonOutput">{}</pre>
                 </div>
             </div>
@@ -157,101 +436,180 @@
     </div>
 
     <script>
+        // VARIABILI GLOBALI
+        var configData = {};
         var links = [];
         var contenuti = [];
-        var configData = {};
+        var sezioni = [];
+        var colori = {};
 
+        // CARICAMENTO CONFIGURAZIONE
         function caricaConfig() {
-            // CORREGGI QUESTA RIGA - RIMUOVI LO SPAZIO DOPO "mauri63."
-            var url = 'https://mauri63.github.io/Mauri/config.json?t=' + new Date().getTime();
+            var url = 'https://raw.githubusercontent.com/mauri63/Mauri/main/config.json?t=' + new Date().getTime();
             
             fetch(url)
-                .then(function(response) {
-                    if (!response.ok) {
-                        // Se il file non esiste, usa dati di default
-                        throw new Error('File non trovato, uso dati di default');
-                    }
+                .then(response => {
+                    if (!response.ok) throw new Error('Errore HTTP: ' + response.status);
                     return response.json();
                 })
-                .then(function(data) {
+                .then(data => {
                     configData = data;
-                    document.getElementById('appTitolo').value = data.app && data.app.titolo ? data.app.titolo : 'LION APP';
-                    document.getElementById('appSottotitolo').value = data.app && data.app.sottotitolo ? data.app.sottotitolo : '';
-                    document.getElementById('appFooter').value = data.app && data.app.footer ? data.app.footer : '';
-                    document.getElementById('btnTesto').value = data.pulsante_principale && data.pulsante_principale.testo ? data.pulsante_principale.testo : 'RUGGISCI!';
-                    document.getElementById('btnClick').value = data.pulsante_principale && data.pulsante_principale.testo_click ? data.pulsante_principale.testo_click : 'ROAR!';
+                    
+                    // IMPOSTAZIONI BASE
+                    document.getElementById('appTitolo').value = data.app?.titolo || 'LION APP';
+                    document.getElementById('appSottotitolo').value = data.app?.sottotitolo || '';
+                    document.getElementById('appFooter').value = data.app?.footer || '';
+                    document.getElementById('appIcona').value = data.app?.icona || '🦁';
+                    
+                    // PULSANTE PRINCIPALE
+                    document.getElementById('btnTesto').value = data.pulsante_principale?.testo || 'RUGGISCI!';
+                    document.getElementById('btnClick').value = data.pulsante_principale?.testo_click || 'ROAR!';
+                    document.getElementById('btnVibrazione').checked = data.pulsante_principale?.vibrazione !== false;
+                    
+                    // COLORI
+                    colori = data.colori || {
+                        sfondo: "#1a1a2e",
+                        titolo: "#FFD93D",
+                        testo: "#FFFFFF",
+                        pulsante: "#FF8C00",
+                        link: "#58a6ff"
+                    };
+                    aggiornaColoriUI();
+                    
+                    // SEZIONI, LINKS, CONTENUTI
+                    sezioni = data.sezioni || [];
                     links = data.links || [];
                     contenuti = data.contenuti || [];
+                    
+                    // IMPOSTAZIONI AVANZATE
+                    document.getElementById('bgImage').value = data.immagini?.sfondo || '';
+                    document.getElementById('temaApp').value = data.tema || 'default';
+                    document.getElementById('modalitaOrologio').checked = data.orologio || false;
+                    document.getElementById('msgAggiornamento').value = data.messaggi?.aggiornamento || '';
+                    
+                    // RENDER
+                    renderSezioni();
                     renderLinks();
                     renderContenuti();
                     generaJSON();
+                    aggiornaAnteprima();
+                    
+                    // MOSTRA INTERFACCIA
                     document.getElementById('loadingMsg').style.display = 'none';
                     document.getElementById('mainContent').style.display = 'block';
                 })
-                .catch(function(error) {
-                    console.log('Usando configurazione di default:', error);
-                    
-                    // DATI DI DEFAULT se il file non esiste
-                    configData = {
-                        app: {
-                            titolo: "LION APP",
-                            sottotitolo: "Benvenuto nella tua app",
-                            footer: "© 2024 Lion App"
-                        },
-                        colori: {
-                            sfondo: "#1a1a2e",
-                            titolo: "#FFD93D",
-                            testo: "#FFFFFF",
-                            pulsante: "#FF8C00"
-                        },
-                        pulsante_principale: {
-                            testo: "RUGGISCI!",
-                            testo_click: "ROAR!"
-                        },
-                        links: [
-                            { nome: "GitHub", url: "https://github.com", icona: "🐙" }
-                        ],
-                        contenuti: [
-                            { titolo: "Benvenuto", descrizione: "Primo messaggio di benvenuto!" }
-                        ]
-                    };
-                    
-                    // Popola i campi con dati di default
-                    document.getElementById('appTitolo').value = configData.app.titolo;
-                    document.getElementById('appSottotitolo').value = configData.app.sottotitolo;
-                    document.getElementById('appFooter').value = configData.app.footer;
-                    document.getElementById('btnTesto').value = configData.pulsante_principale.testo;
-                    document.getElementById('btnClick').value = configData.pulsante_principale.testo_click;
-                    
-                    links = configData.links;
-                    contenuti = configData.contenuti;
-                    
-                    renderLinks();
-                    renderContenuti();
-                    generaJSON();
-                    document.getElementById('loadingMsg').style.display = 'none';
-                    document.getElementById('mainContent').style.display = 'block';
+                .catch(error => {
+                    console.error('Errore:', error);
+                    document.getElementById('loadingMsg').innerHTML = 
+                        '<span class="error">⚠️ Errore nel caricamento<br>' +
+                        '<small>File config.json non trovato o errore di rete</small><br><br>' +
+                        '<button class="btn" onclick="caricaConfig()">🔄 Riprova</button> ' +
+                        '<button class="btn" onclick="usareDefault()">🚀 Usa Configurazione Default</button>' +
+                        '</span>';
                 });
         }
 
+        function usareDefault() {
+            configData = {
+                app: { titolo: "LION APP", sottotitolo: "Benvenuto!", footer: "© 2024", icona: "🦁" },
+                colori: { sfondo: "#1a1a2e", titolo: "#FFD93D", testo: "#FFFFFF", pulsante: "#FF8C00", link: "#58a6ff" },
+                pulsante_principale: { testo: "RUGGISCI! 🔊", testo_click: "🦁 ROAR! 🦁", vibrazione: true },
+                sezioni: [],
+                links: [],
+                contenuti: [],
+                tema: "default"
+            };
+            
+            document.getElementById('loadingMsg').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            generaJSON();
+        }
+
+        // GESTIONE COLORI
+        function aggiornaColoriUI() {
+            const colorFields = ['Sfondo', 'Titoli', 'Testo', 'Pulsanti', 'Links'];
+            colorFields.forEach(field => {
+                const key = field.toLowerCase();
+                const color = colori[key] || (key === 'links' ? '#58a6ff' : 
+                                              key === 'titoli' ? '#FFD93D' : 
+                                              key === 'pulsanti' ? '#FF8C00' : 
+                                              key === 'testo' ? '#FFFFFF' : '#1a1a2e');
+                
+                document.getElementById('color' + field).value = color;
+                document.getElementById('preview' + field).style.background = color;
+                document.getElementById('text' + field).value = color;
+                
+                // EVENT LISTENERS
+                document.getElementById('color' + field).oninput = function(e) {
+                    const newColor = e.target.value;
+                    colori[key] = newColor;
+                    document.getElementById('preview' + field).style.background = newColor;
+                    document.getElementById('text' + field).value = newColor;
+                    generaJSON();
+                };
+                
+                document.getElementById('text' + field).oninput = function(e) {
+                    const newColor = e.target.value;
+                    if (/^#[0-9A-F]{6}$/i.test(newColor)) {
+                        colori[key] = newColor;
+                        document.getElementById('color' + field).value = newColor;
+                        document.getElementById('preview' + field).style.background = newColor;
+                        generaJSON();
+                    }
+                };
+            });
+        }
+
+        // GESTIONE SEZIONI
+        function renderSezioni() {
+            const container = document.getElementById('sezioniContainer');
+            let html = '';
+            sezioni.forEach((sez, i) => {
+                html += `<div class="item-card">
+                    <div class="form-group"><label>Nome Sezione</label>
+                    <input type="text" value="${sez.nome || ''}" onchange="sezioni[${i}].nome=this.value; generaJSON();"></div>
+                    <div class="form-group"><label>Icona (emoji)</label>
+                    <input type="text" value="${sez.icona || ''}" onchange="sezioni[${i}].icona=this.value; generaJSON();"></div>
+                    <div class="form-group"><label>Descrizione</label>
+                    <textarea onchange="sezioni[${i}].descrizione=this.value; generaJSON();">${sez.descrizione || ''}</textarea></div>
+                    <button class="btn btn-remove" onclick="rimuoviSezione(${i})">🗑️ Rimuovi</button>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function aggiungiSezione() {
+            sezioni.push({ nome: "Nuova Sezione", icona: "📁", descrizione: "Descrizione sezione..." });
+            renderSezioni();
+            generaJSON();
+        }
+
+        function rimuoviSezione(i) {
+            sezioni.splice(i, 1);
+            renderSezioni();
+            generaJSON();
+        }
+
+        // GESTIONE LINKS (esistente)
         function renderLinks() {
-            var container = document.getElementById('linksContainer');
-            var html = '';
-            for (var i = 0; i < links.length; i++) {
-                html += '<div class="item-card">';
-                html += '<div class="form-group"><label>Icona (emoji)</label>';
-                html += '<input type="text" value="' + (links[i].icona || '') + '" onchange="links[' + i + '].icona=this.value; generaJSON();"></div>';
-                html += '<div class="form-group"><label>Nome</label>';
-                html += '<input type="text" value="' + (links[i].nome || '') + '" onchange="links[' + i + '].nome=this.value; generaJSON();"></div>';
-                html += '<div class="form-group"><label>URL</label>';
-                html += '<input type="url" value="' + (links[i].url || '') + '" onchange="links[' + i + '].url=this.value; generaJSON();"></div>';
-                html += '<button class="btn btn-remove" onclick="rimuoviLink(' + i + ')">Rimuovi</button></div>';
-            }
+            const container = document.getElementById('linksContainer');
+            let html = '';
+            links.forEach((link, i) => {
+                html += `<div class="item-card">
+                    <div class="form-group"><label>Icona (emoji)</label>
+                    <input type="text" value="${link.icona || ''}" onchange="links[${i}].icona=this.value; generaJSON();"></div>
+                    <div class="form-group"><label>Nome Link</label>
+                    <input type="text" value="${link.nome || ''}" onchange="links[${i}].nome=this.value; generaJSON();"></div>
+                    <div class="form-group"><label>URL</label>
+                    <input type="url" value="${link.url || ''}" onchange="links[${i}].url=this.value; generaJSON();"></div>
+                    <button class="btn btn-remove" onclick="rimuoviLink(${i})">🗑️ Rimuovi</button>
+                </div>`;
+            });
             container.innerHTML = html;
         }
 
         function aggiungiLink() {
-            links.push({nome: "Nuovo Link", url: "https://", icona: "🔗"});
+            links.push({ nome: "Nuovo Link", url: "https://", icona: "🔗" });
             renderLinks();
             generaJSON();
         }
@@ -262,22 +620,24 @@
             generaJSON();
         }
 
+        // GESTIONE CONTENUTI (esistente)
         function renderContenuti() {
-            var container = document.getElementById('contenutiContainer');
-            var html = '';
-            for (var i = 0; i < contenuti.length; i++) {
-                html += '<div class="item-card">';
-                html += '<div class="form-group"><label>Titolo</label>';
-                html += '<input type="text" value="' + (contenuti[i].titolo || '') + '" onchange="contenuti[' + i + '].titolo=this.value; generaJSON();"></div>';
-                html += '<div class="form-group"><label>Descrizione</label>';
-                html += '<textarea onchange="contenuti[' + i + '].descrizione=this.value; generaJSON();">' + (contenuti[i].descrizione || '') + '</textarea></div>';
-                html += '<button class="btn btn-remove" onclick="rimuoviContenuto(' + i + ')">Rimuovi</button></div>';
-            }
+            const container = document.getElementById('contenutiContainer');
+            let html = '';
+            contenuti.forEach((cont, i) => {
+                html += `<div class="item-card">
+                    <div class="form-group"><label>Titolo Notizia</label>
+                    <input type="text" value="${cont.titolo || ''}" onchange="contenuti[${i}].titolo=this.value; generaJSON();"></div>
+                    <div class="form-group"><label>Descrizione/Contenuto</label>
+                    <textarea onchange="contenuti[${i}].descrizione=this.value; generaJSON();">${cont.descrizione || ''}</textarea></div>
+                    <button class="btn btn-remove" onclick="rimuoviContenuto(${i})">🗑️ Rimuovi</button>
+                </div>`;
+            });
             container.innerHTML = html;
         }
 
         function aggiungiContenuto() {
-            contenuti.push({titolo: "Nuovo Titolo", descrizione: "Descrizione..."});
+            contenuti.push({ titolo: "Nuova Notizia", descrizione: "Descrizione della notizia..." });
             renderContenuti();
             generaJSON();
         }
@@ -288,38 +648,102 @@
             generaJSON();
         }
 
+        // TABS
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            
+            document.querySelector(`.tab[onclick*="${tabName}"]`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).style.display = 'block';
+        }
+
+        // ANTEPRIMA
+        function aggiornaAnteprima() {
+            document.getElementById('previewTitolo').textContent = document.getElementById('appTitolo').value || 'LION APP';
+            document.getElementById('previewSottotitolo').textContent = document.getElementById('appSottotitolo').value || '';
+            document.getElementById('previewPulsante').textContent = document.getElementById('btnTesto').value || 'RUGGISCI!';
+            
+            // Stile dinamico
+            document.getElementById('mobilePreview').style.background = colori.sfondo || '#1a1a2e';
+            document.getElementById('previewTitolo').style.color = colori.titolo || '#FFD93D';
+            document.getElementById('previewSottotitolo').style.color = colori.testo || '#FFFFFF';
+            document.getElementById('previewPulsante').style.background = colori.pulsante || '#FF8C00';
+            
+            // Links preview
+            let linksHtml = '<h4 style="margin-top:20px; color:' + (colori.titolo || '#FFD93D') + '">Links:</h4>';
+            links.forEach(link => {
+                linksHtml += `<div style="margin:10px 0; color:${colori.link || '#58a6ff'}">${link.icona || ''} ${link.nome || ''}</div>`;
+            });
+            document.getElementById('previewLinksList').innerHTML = linksHtml;
+        }
+
+        // GENERAZIONE JSON
         function generaJSON() {
-            var newConfig = {
+            const newConfig = {
                 app: {
                     titolo: document.getElementById('appTitolo').value,
                     sottotitolo: document.getElementById('appSottotitolo').value,
-                    footer: document.getElementById('appFooter').value
+                    footer: document.getElementById('appFooter').value,
+                    icona: document.getElementById('appIcona').value
                 },
-                colori: configData.colori || {
-                    sfondo: "#1a1a2e",
-                    titolo: "#FFD93D",
-                    testo: "#FFFFFF",
-                    pulsante: "#FF8C00"
-                },
+                colori: colori,
                 pulsante_principale: {
                     testo: document.getElementById('btnTesto').value,
-                    testo_click: document.getElementById('btnClick').value
+                    testo_click: document.getElementById('btnClick').value,
+                    vibrazione: document.getElementById('btnVibrazione').checked
                 },
+                sezioni: sezioni,
                 links: links,
-                contenuti: contenuti
+                contenuti: contenuti,
+                immagini: {
+                    sfondo: document.getElementById('bgImage').value
+                },
+                tema: document.getElementById('temaApp').value,
+                orologio: document.getElementById('modalitaOrologio').checked,
+                messaggi: {
+                    aggiornamento: document.getElementById('msgAggiornamento').value
+                },
+                ultimo_aggiornamento: new Date().toISOString()
             };
+            
             document.getElementById('jsonOutput').textContent = JSON.stringify(newConfig, null, 2);
+            configData = newConfig;
         }
 
+        // COPIA JSON
         function copiaJSON() {
-            var json = document.getElementById('jsonOutput').textContent;
+            const json = document.getElementById('jsonOutput').textContent;
             navigator.clipboard.writeText(json);
-            var notice = document.getElementById('copyNotice');
+            const notice = document.getElementById('copyNotice');
             notice.style.display = 'block';
-            setTimeout(function() { notice.style.display = 'none'; }, 2000);
+            notice.textContent = '✅ JSON copiato! Ora incolla su GitHub';
+            setTimeout(() => notice.style.display = 'none', 3000);
         }
 
+        // SALVA LOCALMENTE
+        function salvaLocalmente() {
+            const json = document.getElementById('jsonOutput').textContent;
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lion-app-config.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // INIZIALIZZAZIONE
         window.onload = caricaConfig;
+        window.onload = function() {
+            caricaConfig();
+            showTab('basics');
+            
+            // Auto-aggiorna anteprima quando si cambia qualcosa
+            document.querySelectorAll('input, textarea, select').forEach(el => {
+                el.addEventListener('input', () => setTimeout(aggiornaAnteprima, 100));
+                el.addEventListener('change', () => setTimeout(aggiornaAnteprima, 100));
+            });
+        };
     </script>
 </body>
 </html>
