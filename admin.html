@@ -144,7 +144,7 @@
                 <h2>Genera Configurazione</h2>
                 <button class="btn" onclick="generaJSON()">Genera JSON</button>
                 <button class="btn" onclick="copiaJSON()">Copia</button>
-                <a href="https://github.com/mauri63/Mauri/edit/main/contenuti.json" target="_blank">
+                <a href="https://github.com/mauri63/Mauri/edit/main/config.json" target="_blank">
                     <button class="btn">Modifica su GitHub</button>
                 </a>
                 <div class="copy-notice" id="copyNotice">Copiato negli appunti! </div>
@@ -161,7 +161,7 @@
         var configData = {};
 
         function caricaConfig() {
-            var url = 'https://mauri63. github.io/Mauri/config.json?t=' + new Date().getTime();
+            var url = 'https://mauri63. github.io/Mauri/config.json?t='+ new Date().getTime();
             fetch(url)
                 .then(function(response) {
                     return response.json();
