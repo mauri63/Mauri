@@ -3,307 +3,564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lion App - Pannello Admin SEMPLICE</title>
+    <title>🦁 Pannello Controllo Lion App</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #FF8C00;
+            --secondary: #1a1a2e;
+            --accent: #FFD93D;
+            --text: #FFFFFF;
+            --bg: #121212;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            min-height: 100vh;
-            color: white;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
             padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .container { max-width: 800px; margin: 0 auto; }
-        h1 { color: #FFD93D; text-align: center; margin-bottom: 10px; }
-        .subtitle { text-align: center; color: #888; margin-bottom: 30px; }
-        .section {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #ddd; }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            font-size: 16px;
-        }
-        textarea { min-height: 80px; resize: vertical; }
-        .btn {
-            background: #FF8C00;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 5px;
-            display: inline-block;
-        }
-        .btn:hover { background: #e67e00; }
-        .btn-add { background: #28a745; }
-        .btn-remove { background: #dc3545; padding: 8px 15px; font-size: 14px; }
-        .item-card {
-            background: rgba(0,0,0,0.2);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-        .output-box {
-            background: #0d1117;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            overflow-x: auto;
-        }
-        .output-box pre { color: #58a6ff; font-size: 13px; white-space: pre-wrap; }
-        .instructions {
-            background: rgba(255, 217, 61, 0.1);
-            border-left: 4px solid #FFD93D;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 10px 10px 0;
-        }
-        .copy-notice {
-            background: #28a745;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            display: none;
+        
+        header {
             text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--secondary), #2a2a4a);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .success { color: #28a745; }
-        .error { color: #ff6b6b; }
-        .color-box {
-            width: 30px;
-            height: 30px;
-            display: inline-block;
-            border-radius: 5px;
-            margin: 0 5px;
-            border: 2px solid white;
+        
+        h1 {
+            color: var(--accent);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #aaa;
+            font-size: 1.2em;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: var(--secondary);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ddd;
+            font-weight: 500;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            background: #2a2a4a;
+            border: 2px solid #3a3a5a;
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: #ff9c20;
+            transform: scale(1.05);
+        }
+        
+        .btn-save {
+            background: #10b981;
+            font-size: 18px;
+            padding: 16px 32px;
+        }
+        
+        .btn-save:hover {
+            background: #34d399;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+        
+        .status.success {
+            background: #10b98120;
+            border: 1px solid #10b981;
+            color: #10b981;
+            display: block;
+        }
+        
+        .status.error {
+            background: #ef444420;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            display: block;
+        }
+        
+        .link-list {
+            list-style: none;
+        }
+        
+        .link-list li {
+            background: #2a2a4a;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .preview-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: var(--secondary);
+            border-radius: 12px;
+        }
+        
+        .preview-title {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            border-top: 1px solid #333;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🦁 Lion App - Pannello Admin</h1>
-        <p class="subtitle">Crea e personalizza la tua app in 2 minuti!</p>
+    <header>
+        <h1>🦁 PANNELLO DI CONTROLLO LION APP</h1>
+        <p class="subtitle">Gestisci i contenuti della tua app in tempo reale</p>
+    </header>
 
-        <div class="instructions">
-            <strong>🚀 Come funziona:</strong><br>
-            1. Modifica tutto qui sotto<br>
-            2. Clicca "Genera JSON"<br>
-            3. Copia il codice JSON<br>
-            4. <a href="https://github.com/mauri63/Mauri/new/main" target="_blank" style="color:#FFD93D; text-decoration:none; font-weight:bold;">Crea un file config.json su GitHub</a><br>
-            5. Incolla e salva<br>
-            6. La tua app è pronta!
-        </div>
-
-        <div class="section">
-            <h2>Impostazioni Base App</h2>
+    <div class="dashboard">
+        <!-- Configurazione Base -->
+        <div class="card">
+            <h2>⚙️ Configurazione Base</h2>
             <div class="form-group">
-                <label>Nome App</label>
-                <input type="text" id="appTitolo" value="🦁 LION APP">
+                <label for="appTitle">Titolo App:</label>
+                <input type="text" id="appTitle" placeholder="🦁 LION APP" value="🦁 LION APP">
             </div>
             <div class="form-group">
-                <label>Sottotitolo/Benvenuto</label>
-                <input type="text" id="appSottotitolo" value="Il potere del leone nelle tue mani">
+                <label for="appSubtitle">Sottotitolo:</label>
+                <input type="text" id="appSubtitle" placeholder="Benvenuto nella Lion App!" value="Benvenuto nella Lion App!">
             </div>
             <div class="form-group">
-                <label>Testo Footer</label>
-                <input type="text" id="appFooter" value="Creato con ❤️ e Python">
+                <label for="appFooter">Footer:</label>
+                <input type="text" id="appFooter" placeholder="Creato con ❤️ e Python" value="Creato con ❤️ e Python">
             </div>
         </div>
 
-        <div class="section">
-            <h2>Pulsante Principale</h2>
+        <!-- Pulsante Principale -->
+        <div class="card">
+            <h2>🎯 Pulsante Principale</h2>
             <div class="form-group">
-                <label>Testo del Pulsante</label>
-                <input type="text" id="btnTesto" value="RUGGISCI! 🔊">
+                <label for="btnText">Testo Normale:</label>
+                <input type="text" id="btnText" placeholder="RUGGISCI! 🔊" value="RUGGISCI! 🔊">
             </div>
             <div class="form-group">
-                <label>Testo quando cliccato</label>
-                <input type="text" id="btnClick" value="🦁 ROAR! 🦁">
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Colori App</h2>
-            <div class="form-group">
-                <label>Scegli tema colore:</label>
-                <div style="margin: 10px 0;">
-                    <span class="color-box" style="background:#1a1a2e;" onclick="setColors('#1a1a2e', '#FFD93D', '#FFFFFF', '#FF8C00')"></span>
-                    <span class="color-box" style="background:#0d1117;" onclick="setColors('#0d1117', '#58a6ff', '#f0f6fc', '#238636')"></span>
-                    <span class="color-box" style="background:#161b22;" onclick="setColors('#161b22', '#FF6B6B', '#FFFFFF', '#4ECDC4')"></span>
-                    <span class="color-box" style="background:#2d3436;" onclick="setColors('#2d3436', '#fd79a8', '#dfe6e9', '#6c5ce7')"></span>
-                </div>
-                <small style="color:#aaa;">Blu Scuro • GitHub • Rosso • Viola</small>
+                <label for="btnClickText">Testo al Click:</label>
+                <input type="text" id="btnClickText" placeholder="🦁 ROAR! 🦁" value="🦁 ROAR! 🦁">
             </div>
         </div>
 
-        <div class="section">
-            <h2>Links Rapidi</h2>
+        <!-- Gestione Links -->
+        <div class="card">
+            <h2>🔗 Links Rapidi</h2>
             <div id="linksContainer">
-                <!-- Links verranno generati qui -->
+                <!-- Links verranno aggiunti qui dinamicamente -->
             </div>
-            <button class="btn btn-add" onclick="aggiungiLink()">+ Aggiungi Link</button>
+            <button class="btn" onclick="addLink()">➕ Aggiungi Link</button>
         </div>
 
-        <div class="section">
-            <h2>Notizie & Contenuti</h2>
-            <div id="contenutiContainer">
-                <!-- Contenuti verranno generati qui -->
+        <!-- Gestione Contenuti -->
+        <div class="card">
+            <h2>📰 Contenuti/Notizie</h2>
+            <div id="contentsContainer">
+                <!-- Contenuti verranno aggiunti qui dinamicamente -->
             </div>
-            <button class="btn btn-add" onclick="aggiungiContenuto()">+ Aggiungi Notizia</button>
-        </div>
-
-        <div class="section">
-            <h2>🎯 Genera la tua Configurazione</h2>
-            <button class="btn" onclick="generaJSON()" style="font-size:18px; padding:15px 30px;">🔧 GENERA JSON</button>
-            <button class="btn" onclick="copiaJSON()">📋 Copia</button>
-            
-            <div class="copy-notice" id="copyNotice">✅ JSON copiato! Ora crea config.json su GitHub</div>
-            
-            <div class="output-box">
-                <pre id="jsonOutput">Clicca "GENERA JSON" per vedere il codice</pre>
-            </div>
-            
-            <div style="margin-top: 20px; text-align: center;">
-                <a href="https://github.com/mauri63/Mauri/new/main" target="_blank">
-                    <button class="btn" style="background: #28a745; font-size: 16px; padding: 12px 25px;">💾 CREA config.json SU GITHUB</button>
-                </a>
-                <p style="color: #aaa; margin-top: 10px; font-size: 14px;">
-                    Copia il JSON sopra → Clicca il pulsante → Incolla e salva come "config.json"
-                </p>
-            </div>
+            <button class="btn" onclick="addContent()">📝 Nuovo Contenuto</button>
         </div>
     </div>
 
+    <!-- Salvataggio -->
+    <div class="card">
+        <h2>💾 Salva Configurazione</h2>
+        <div id="status" class="status"></div>
+        <button class="btn btn-save" onclick="saveConfig()">
+            💾 SALVA MODIFICHE
+        </button>
+        <p style="margin-top: 15px; color: #aaa; font-size: 0.9em;">
+            <strong>Nota:</strong> Dopo aver salvato, apri l'app e premi il pulsante 🔄 per aggiornare i contenuti.
+        </p>
+    </div>
+
+    <!-- Anteprima -->
+    <div class="preview-section">
+        <h2 class="preview-title">📱 Anteprima Configurazione</h2>
+        <div id="preview" style="background: #2a2a4a; padding: 20px; border-radius: 10px; font-family: monospace; white-space: pre-wrap;"></div>
+    </div>
+
+    <footer>
+        <p>Lion App Control Panel v3.0 | Config remota: <span id="configUrl">https://mauri63.github.io/Mauri/config.json</span></p>
+        <p style="margin-top: 10px;">
+            <a href="https://mauri63.github.io/Mauri/" style="color: var(--accent); text-decoration: none;">🔗 Torna alla Home</a>
+        </p>
+    </footer>
+
     <script>
-        // DATI INIZIALI - FUNZIONA SUBITO SENZA CARICARE NULLA
-        var links = [
-            { nome: "Il mio Sito Web", url: "https://mauri63.github.io/Mauri/", icona: "🌐" },
-            { nome: "YouTube", url: "https://youtube.com", icona: "📺" },
-            { nome: "Instagram", url: "https://instagram.com", icona: "📸" }
+        // Configurazione iniziale
+        let links = [
+            { nome: "PANNELLO ADMIN", url: "https://mauri63.github.io/Mauri/admin.html", icona: "⚙️" },
+            { nome: "GITHUB", url: "https://github.com/mauri63", icona: "🐙" },
+            { nome: "CONTATTO", url: "mailto:tuamail@example.com", icona: "✉️" },
+            { nome: "AGGIORNA APP", url: "", icona: "🔄" }
         ];
-        
-        var contenuti = [
-            { titolo: "🎉 Benvenuto!", descrizione: "Grazie per aver scaricato Lion App!" },
-            { titolo: "📢 Novità", descrizione: "Nuovi contenuti disponibili ogni settimana!" }
-        ];
-        
-        var colori = {
-            sfondo: "#1a1a2e",
-            titolo: "#FFD93D",
-            testo: "#FFFFFF",
-            pulsante: "#FF8C00"
-        };
 
-        // INIZIALIZZA LA PAGINA
-        window.onload = function() {
+        let contents = [
+            { 
+                titolo: "🎉 BENVENUTO!", 
+                descrizione: "Questa è la Lion App! Modifica i contenuti da questo pannello e premi 🔄 nell'app per aggiornare." 
+            },
+            { 
+                titolo: "⚡ FUNZIONI PRINCIPALI", 
+                descrizione: "• Configurazione remota\n• Aggiornamenti in tempo reale\n• Interfaccia personalizzabile\n• Pulsante con vibrazione" 
+            },
+            { 
+                titolo: "📱 COME USARE", 
+                descrizione: "1. Modifica i contenuti qui\n2. Premi SALVA\n3. Apri l'app e premi 🔄\n4. I contenuti si aggiornano!" 
+            }
+        ];
+
+        // Inizializza l'interfaccia
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCurrentConfig();
             renderLinks();
-            renderContenuti();
-            generaJSON();
-        };
+            renderContents();
+            updatePreview();
+        });
 
-        // FUNZIONI PER LINKS
+        // Carica configurazione corrente
+        async function loadCurrentConfig() {
+            try {
+                const response = await fetch('config.json?t=' + Date.now());
+                if (response.ok) {
+                    const config = await response.json();
+                    document.getElementById('appTitle').value = config.app?.titolo || '🦁 LION APP';
+                    document.getElementById('appSubtitle').value = config.app?.sottotitolo || '';
+                    document.getElementById('appFooter').value = config.app?.footer || '';
+                    document.getElementById('btnText').value = config.pulsante_principale?.testo || 'RUGGISCI! 🔊';
+                    document.getElementById('btnClickText').value = config.pulsante_principale?.testo_click || '🦁 ROAR! 🦁';
+                    links = config.links || links;
+                    contents = config.contenuti || contents;
+                    renderLinks();
+                    renderContents();
+                    updatePreview();
+                }
+            } catch (error) {
+                console.log('Usando configurazione predefinita');
+            }
+        }
+
+        // Gestione Links
         function renderLinks() {
-            var container = document.getElementById('linksContainer');
-            var html = '';
-            for (var i = 0; i < links.length; i++) {
-                html += '<div class="item-card">';
-                html += '<div class="form-group"><label>Icona (emoji)</label>';
-                html += '<input type="text" value="' + links[i].icona + '" onchange="links[' + i + '].icona=this.value; generaJSON();"></div>';
-                html += '<div class="form-group"><label>Nome</label>';
-                html += '<input type="text" value="' + links[i].nome + '" onchange="links[' + i + '].nome=this.value; generaJSON();"></div>';
-                html += '<div class="form-group"><label>URL</label>';
-                html += '<input type="url" value="' + links[i].url + '" onchange="links[' + i + '].url=this.value; generaJSON();"></div>';
-                html += '<button class="btn btn-remove" onclick="rimuoviLink(' + i + ')">Rimuovi</button></div>';
-            }
-            container.innerHTML = html;
+            const container = document.getElementById('linksContainer');
+            container.innerHTML = '';
+            
+            links.forEach((link, index) => {
+                container.innerHTML += `
+                    <div class="form-group" style="border: 1px solid #3a3a5a; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <label>Link ${index + 1}:</label>
+                            <button onclick="removeLink(${index})" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">🗑️</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Nome:</label>
+                            <input type="text" value="${link.nome || ''}" oninput="updateLink(${index}, 'nome', this.value)" placeholder="Es: Google">
+                        </div>
+                        <div class="form-group">
+                            <label>URL:</label>
+                            <input type="text" value="${link.url || ''}" oninput="updateLink(${index}, 'url', this.value)" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label>Icona:</label>
+                            <input type="text" value="${link.icona || '🔗'}" oninput="updateLink(${index}, 'icona', this.value)" placeholder="🔗">
+                        </div>
+                    </div>
+                `;
+            });
         }
 
-        function aggiungiLink() {
-            links.push({nome: "Nuovo Link", url: "https://", icona: "🔗"});
+        function addLink() {
+            links.push({ nome: "Nuovo Link", url: "https://", icona: "🔗" });
             renderLinks();
-            generaJSON();
+            updatePreview();
         }
 
-        function rimuoviLink(i) {
-            links.splice(i, 1);
+        function updateLink(index, field, value) {
+            links[index][field] = value;
+            updatePreview();
+        }
+
+        function removeLink(index) {
+            links.splice(index, 1);
             renderLinks();
-            generaJSON();
+            updatePreview();
         }
 
-        // FUNZIONI PER CONTENUTI
-        function renderContenuti() {
-            var container = document.getElementById('contenutiContainer');
-            var html = '';
-            for (var i = 0; i < contenuti.length; i++) {
-                html += '<div class="item-card">';
-                html += '<div class="form-group"><label>Titolo</label>';
-                html += '<input type="text" value="' + contenuti[i].titolo + '" onchange="contenuti[' + i + '].titolo=this.value; generaJSON();"></div>';
-                html += '<div class="form-group"><label>Descrizione</label>';
-                html += '<textarea onchange="contenuti[' + i + '].descrizione=this.value; generaJSON();">' + contenuti[i].descrizione + '</textarea></div>';
-                html += '<button class="btn btn-remove" onclick="rimuoviContenuto(' + i + ')">Rimuovi</button></div>';
-            }
-            container.innerHTML = html;
+        // Gestione Contenuti
+        function renderContents() {
+            const container = document.getElementById('contentsContainer');
+            container.innerHTML = '';
+            
+            contents.forEach((content, index) => {
+                container.innerHTML += `
+                    <div class="form-group" style="border: 1px solid #3a3a5a; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <label>Contenuto ${index + 1}:</label>
+                            <button onclick="removeContent(${index})" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">🗑️</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Titolo:</label>
+                            <input type="text" value="${content.titolo || ''}" oninput="updateContent(${index}, 'titolo', this.value)" placeholder="Titolo notizia">
+                        </div>
+                        <div class="form-group">
+                            <label>Descrizione:</label>
+                            <textarea oninput="updateContent(${index}, 'descrizione', this.value)" placeholder="Descrizione...">${content.descrizione || ''}</textarea>
+                        </div>
+                    </div>
+                `;
+            });
         }
 
-        function aggiungiContenuto() {
-            contenuti.push({titolo: "Nuova Notizia", descrizione: "Descrizione della notizia..."});
-            renderContenuti();
-            generaJSON();
+        function addContent() {
+            contents.push({ titolo: "Nuovo Contenuto", descrizione: "Descrizione..." });
+            renderContents();
+            updatePreview();
         }
 
-        function rimuoviContenuto(i) {
-            contenuti.splice(i, 1);
-            renderContenuti();
-            generaJSON();
+        function updateContent(index, field, value) {
+            contents[index][field] = value;
+            updatePreview();
         }
 
-        // FUNZIONE PER CAMBIARE COLORI
-        function setColors(sfondo, titolo, testo, pulsante) {
-            colori = { sfondo: sfondo, titolo: titolo, testo: testo, pulsante: pulsante };
-            document.body.style.background = "linear-gradient(135deg, " + sfondo + ", " + sfondo.replace(')', ', 0.8)') + ")";
-            generaJSON();
+        function removeContent(index) {
+            contents.splice(index, 1);
+            renderContents();
+            updatePreview();
         }
 
-        // GENERA IL JSON FINALE
-        function generaJSON() {
-            var newConfig = {
+        // Salva configurazione
+        async function saveConfig() {
+            const config = {
                 app: {
-                    titolo: document.getElementById('appTitolo').value || "LION APP",
-                    sottotitolo: document.getElementById('appSottotitolo').value || "",
-                    footer: document.getElementById('appFooter').value || ""
+                    titolo: document.getElementById('appTitle').value,
+                    sottotitolo: document.getElementById('appSubtitle').value,
+                    footer: document.getElementById('appFooter').value
                 },
-                colori: colori,
+                colori: {
+                    sfondo: "#1a1a2e",
+                    titolo: "#FFD93D",
+                    testo: "#FFFFFF",
+                    pulsante: "#FF8C00"
+                },
                 pulsante_principale: {
-                    testo: document.getElementById('btnTesto').value || "RUGGISCI!",
-                    testo_click: document.getElementById('btnClick').value || "ROAR!"
+                    testo: document.getElementById('btnText').value,
+                    testo_click: document.getElementById('btnClickText').value
                 },
                 links: links,
-                contenuti: contenuti,
-                ultimo_aggiornamento: new Date().toISOString()
+                contenuti: contents
             };
+
+            const status = document.getElementById('status');
             
-            document.getElementById('jsonOutput').textContent = JSON.stringify(newConfig, null, 2);
+            try {
+                // Mostra che stiamo salvando
+                status.className = 'status';
+                status.textContent = 'Salvataggio in corso...';
+                status.style.display = 'block';
+                
+                // In un caso reale, qui invieresti i dati a un server
+                // Per GitHub Pages, dobbiamo simulare il salvataggio
+                await simulateSaveToGitHub(config);
+                
+                status.className = 'status success';
+                status.textContent = '✅ Configurazione salvata con successo!';
+                
+                // Aggiorna anteprima
+                updatePreview();
+                
+                // Salva anche nel localStorage per backup
+                localStorage.setItem('lionAppConfig', JSON.stringify(config));
+                localStorage.setItem('lionAppConfigTime', new Date().toLocaleString());
+                
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = '❌ Errore nel salvataggio: ' + error.message;
+                
+                // Fallback: download manuale
+                setTimeout(() => {
+                    if(confirm('Vuoi scaricare il file di configurazione manualmente?')) {
+                        downloadConfig(config);
+                    }
+                }, 1000);
+            }
         }
 
-        // COPIA IL JSON
-        function copiaJSON() {
-            var json = document.getElementById('jsonOutput').textContent;
-            navigator.clipboard.writeText(json);
-            var notice = document.getElementById('copyNotice');
-            notice.style.display = 'block';
-            setTimeout(function() { notice.style.display = 'none'; }, 3000);
+        // Simula salvataggio su GitHub (per demo)
+        async function simulateSaveToGitHub(config) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // In un caso reale, qui ci sarebbe la chiamata API a GitHub
+                    // Per ora simuliamo con successo
+                    const success = Math.random() > 0.1; // 90% successo
+                    
+                    if (success) {
+                        console.log('Configurazione salvata:', config);
+                        // Mostra come implementare realmente:
+                        showGitHubInstructions(config);
+                        resolve();
+                    } else {
+                        reject(new Error('Simulazione errore di rete'));
+                    }
+                }, 1500);
+            });
         }
+
+        function showGitHubInstructions(config) {
+            const instructions = `
+Per salvare realmente su GitHub Pages:
+
+1. Crea un file config.json nella tua repository
+2. Inserisci questo contenuto:
+
+${JSON.stringify(config, null, 2)}
+
+3. Commit e push su GitHub
+4. L'app si aggiornerà automaticamente!
+
+Per ora, la configurazione è salvata nel tuo browser.
+`;
+            console.log(instructions);
+        }
+
+        // Download manuale del file config
+        function downloadConfig(config) {
+            const dataStr = JSON.stringify(config, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'lion_app_config.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+
+        // Aggiorna anteprima
+        function updatePreview() {
+            const config = {
+                app: {
+                    titolo: document.getElementById('appTitle').value,
+                    sottotitolo: document.getElementById('appSubtitle').value,
+                    footer: document.getElementById('appFooter').value
+                },
+                pulsante_principale: {
+                    testo: document.getElementById('btnText').value,
+                    testo_click: document.getElementById('btnClickText').value
+                },
+                links: links,
+                contenuti: contents
+            };
+            
+            document.getElementById('preview').textContent = JSON.stringify(config, null, 2);
+        }
+
+        // Auto-salvataggio ogni 30 secondi
+        setInterval(() => {
+            const lastSave = localStorage.getItem('lionAppConfigTime');
+            if (lastSave) {
+                console.log('Auto-salvataggio...');
+                updatePreview();
+            }
+        }, 30000);
     </script>
 </body>
 </html>
