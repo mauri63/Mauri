@@ -1,9 +1,9 @@
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦁 Lion App - Pannello Admin</title>
+    <title>Lion App - Pannello Admin</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -30,12 +30,12 @@
             padding: 10px;
             border: none;
             border-radius: 8px;
-            background: rgba(255,255,255,0. 15);
+            background: rgba(255,255,255,0.15);
             color: white;
             font-size: 16px;
         }
         textarea { min-height: 80px; resize: vertical; }
-        .btn {
+        . btn {
             background: #FF8C00;
             color: white;
             padding: 12px 25px;
@@ -45,8 +45,8 @@
             cursor: pointer;
             margin: 5px;
         }
-        .btn:hover { background: #e67e00; }
-        .btn-add { background: #28a745; }
+        . btn:hover { background: #e67e00; }
+        . btn-add { background: #28a745; }
         .btn-remove { background: #dc3545; padding: 8px 15px; font-size: 14px; }
         .item-card {
             background: rgba(0,0,0,0.2);
@@ -62,7 +62,7 @@
             overflow-x: auto;
         }
         .output-box pre { color: #58a6ff; font-size: 13px; white-space: pre-wrap; }
-        .instructions {
+        . instructions {
             background: rgba(255, 217, 61, 0.1);
             border-left: 4px solid #FFD93D;
             padding: 15px;
@@ -70,7 +70,7 @@
             border-radius: 0 10px 10px 0;
         }
         .instructions a { color: #58a6ff; }
-        .copy-notice {
+        . copy-notice {
             background: #28a745;
             padding: 10px;
             border-radius: 8px;
@@ -78,34 +78,30 @@
             display: none;
             text-align: center;
         }
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #FFD93D;
-        }
+        .loading { text-align: center; padding: 20px; color: #FFD93D; }
+        . error { color: #ff6b6b; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🦁 Lion App - Pannello Admin</h1>
+        <h1>Lion App - Pannello Admin</h1>
         <p class="subtitle">Modifica la tua app senza ricompilare! </p>
 
         <div class="instructions">
-            <strong>📋 Come usare:</strong><br>
+            <strong>Come usare:</strong><br>
             1. Modifica le impostazioni qui sotto<br>
-            2.  Clicca "Genera JSON"<br>
+            2. Clicca "Genera JSON"<br>
             3.  Copia il JSON<br>
             4. Clicca "Modifica su GitHub"<br>
-            5. Incolla e salva<br>
-            6.  Apri l'app e clicca "Aggiorna"!  🎉
+            5.  Incolla e salva<br>
+            6.  Apri l'app e clicca "Aggiorna"!
         </div>
 
-        <div id="loadingMsg" class="loading">⏳ Caricamento configurazione...</div>
+        <div id="loadingMsg" class="loading">Caricamento configurazione...</div>
 
         <div id="mainContent" style="display:none;">
-            <!-- APP -->
             <div class="section">
-                <h2>📱 Impostazioni App</h2>
+                <h2>Impostazioni App</h2>
                 <div class="form-group">
                     <label>Titolo</label>
                     <input type="text" id="appTitolo">
@@ -120,9 +116,8 @@
                 </div>
             </div>
 
-            <!-- PULSANTE -->
             <div class="section">
-                <h2>🔘 Pulsante Principale</h2>
+                <h2>Pulsante Principale</h2>
                 <div class="form-group">
                     <label>Testo</label>
                     <input type="text" id="btnTesto">
@@ -133,29 +128,26 @@
                 </div>
             </div>
 
-            <!-- LINKS -->
             <div class="section">
-                <h2>🔗 Links</h2>
+                <h2>Links</h2>
                 <div id="linksContainer"></div>
                 <button class="btn btn-add" onclick="aggiungiLink()">+ Aggiungi Link</button>
             </div>
 
-            <!-- CONTENUTI -->
             <div class="section">
-                <h2>📰 Messaggi / Notizie</h2>
+                <h2>Messaggi / Notizie</h2>
                 <div id="contenutiContainer"></div>
                 <button class="btn btn-add" onclick="aggiungiContenuto()">+ Aggiungi Messaggio</button>
             </div>
 
-            <!-- GENERA -->
             <div class="section">
-                <h2>💾 Genera Configurazione</h2>
-                <button class="btn" onclick="generaJSON()">📄 Genera JSON</button>
-                <button class="btn" onclick="copiaJSON()">📋 Copia</button>
+                <h2>Genera Configurazione</h2>
+                <button class="btn" onclick="generaJSON()">Genera JSON</button>
+                <button class="btn" onclick="copiaJSON()">Copia</button>
                 <a href="https://github.com/mauri63/Mauri/edit/main/contenuti.json" target="_blank">
-                    <button class="btn">✏️ Modifica su GitHub</button>
+                    <button class="btn">Modifica su GitHub</button>
                 </a>
-                <div class="copy-notice" id="copyNotice">✅ Copiato negli appunti!</div>
+                <div class="copy-notice" id="copyNotice">Copiato negli appunti! </div>
                 <div class="output-box">
                     <pre id="jsonOutput">{}</pre>
                 </div>
@@ -164,60 +156,51 @@
     </div>
 
     <script>
-        let links = [];
-        let contenuti = [];
-        let config = {};
+        var links = [];
+        var contenuti = [];
+        var configData = {};
 
-        // Carica configurazione da GitHub
-        async function caricaConfig() {
-            try {
-                const response = await fetch('https://mauri63.github.io/Mauri/contenuti.json?' + Date.now());
-                config = await response.json();
-                
-                // Popola i campi
-                document.getElementById('appTitolo').value = config. app?. titolo || '🦁 LION APP';
-                document.getElementById('appSottotitolo').value = config.app?.sottotitolo || '';
-                document.getElementById('appFooter').value = config.app?. footer || '';
-                document.getElementById('btnTesto').value = config.pulsante_principale?.testo || 'RUGGISCI!';
-                document.getElementById('btnClick').value = config.pulsante_principale?.testo_click || 'ROAR!';
-                
-                links = config.links || [];
-                contenuti = config.contenuti || [];
-                
-                renderLinks();
-                renderContenuti();
-                generaJSON();
-                
-                document.getElementById('loadingMsg').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-            } catch (error) {
-                console. error('Errore:', error);
-                document.getElementById('loadingMsg').innerHTML = '❌ Errore nel caricamento.  Ricarica la pagina.';
-            }
+        function caricaConfig() {
+            var url = 'https://mauri63.github.io/Mauri/contenuti.json? t=' + new Date().getTime();
+            fetch(url)
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    configData = data;
+                    document.getElementById('appTitolo'). value = data.app && data.app.titolo ?  data.app.titolo : 'LION APP';
+                    document. getElementById('appSottotitolo').value = data.app && data.app.sottotitolo ?  data.app.sottotitolo : '';
+                    document.getElementById('appFooter').value = data.app && data.app.footer ? data.app.footer : '';
+                    document.getElementById('btnTesto').value = data.pulsante_principale && data.pulsante_principale.testo ?  data.pulsante_principale. testo : 'RUGGISCI!';
+                    document.getElementById('btnClick').value = data.pulsante_principale && data.pulsante_principale. testo_click ? data.pulsante_principale.testo_click : 'ROAR! ';
+                    links = data.links || [];
+                    contenuti = data.contenuti || [];
+                    renderLinks();
+                    renderContenuti();
+                    generaJSON();
+                    document.getElementById('loadingMsg').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                })
+                .catch(function(error) {
+                    console.error('Errore:', error);
+                    document.getElementById('loadingMsg').innerHTML = '<span class="error">Errore nel caricamento.  Ricarica la pagina.</span>';
+                });
         }
 
         function renderLinks() {
-            const container = document.getElementById('linksContainer');
-            container.innerHTML = '';
-            links.forEach((link, i) => {
-                container.innerHTML += `
-                    <div class="item-card">
-                        <div class="form-group">
-                            <label>Icona (emoji)</label>
-                            <input type="text" value="${link. icona || ''}" onchange="links[${i}].icona=this.value; generaJSON();">
-                        </div>
-                        <div class="form-group">
-                            <label>Nome</label>
-                            <input type="text" value="${link. nome || ''}" onchange="links[${i}].nome=this.value; generaJSON();">
-                        </div>
-                        <div class="form-group">
-                            <label>URL</label>
-                            <input type="url" value="${link.url || ''}" onchange="links[${i}].url=this.value; generaJSON();">
-                        </div>
-                        <button class="btn btn-remove" onclick="rimuoviLink(${i})">🗑️ Rimuovi</button>
-                    </div>
-                `;
-            });
+            var container = document.getElementById('linksContainer');
+            var html = '';
+            for (var i = 0; i < links.length; i++) {
+                html += '<div class="item-card">';
+                html += '<div class="form-group"><label>Icona (emoji)</label>';
+                html += '<input type="text" value="' + (links[i].icona || '') + '" onchange="links[' + i + '].icona=this.value; generaJSON();"></div>';
+                html += '<div class="form-group"><label>Nome</label>';
+                html += '<input type="text" value="' + (links[i]. nome || '') + '" onchange="links[' + i + '].nome=this.value; generaJSON();"></div>';
+                html += '<div class="form-group"><label>URL</label>';
+                html += '<input type="url" value="' + (links[i].url || '') + '" onchange="links[' + i + '].url=this. value; generaJSON();"></div>';
+                html += '<button class="btn btn-remove" onclick="rimuoviLink(' + i + ')">Rimuovi</button></div>';
+            }
+            container.innerHTML = html;
         }
 
         function aggiungiLink() {
@@ -233,23 +216,17 @@
         }
 
         function renderContenuti() {
-            const container = document.getElementById('contenutiContainer');
-            container.innerHTML = '';
-            contenuti.forEach((item, i) => {
-                container.innerHTML += `
-                    <div class="item-card">
-                        <div class="form-group">
-                            <label>Titolo</label>
-                            <input type="text" value="${item.titolo || ''}" onchange="contenuti[${i}].titolo=this.value; generaJSON();">
-                        </div>
-                        <div class="form-group">
-                            <label>Descrizione</label>
-                            <textarea onchange="contenuti[${i}].descrizione=this. value; generaJSON();">${item.descrizione || ''}</textarea>
-                        </div>
-                        <button class="btn btn-remove" onclick="rimuoviContenuto(${i})">🗑️ Rimuovi</button>
-                    </div>
-                `;
-            });
+            var container = document.getElementById('contenutiContainer');
+            var html = '';
+            for (var i = 0; i < contenuti.length; i++) {
+                html += '<div class="item-card">';
+                html += '<div class="form-group"><label>Titolo</label>';
+                html += '<input type="text" value="' + (contenuti[i].titolo || '') + '" onchange="contenuti[' + i + '].titolo=this.value; generaJSON();"></div>';
+                html += '<div class="form-group"><label>Descrizione</label>';
+                html += '<textarea onchange="contenuti[' + i + '].descrizione=this. value; generaJSON();">' + (contenuti[i].descrizione || '') + '</textarea></div>';
+                html += '<button class="btn btn-remove" onclick="rimuoviContenuto(' + i + ')">Rimuovi</button></div>';
+            }
+            container.innerHTML = html;
         }
 
         function aggiungiContenuto() {
@@ -265,18 +242,17 @@
         }
 
         function generaJSON() {
-            const newConfig = {
+            var newConfig = {
                 app: {
-                    titolo: document. getElementById('appTitolo').value,
+                    titolo: document.getElementById('appTitolo'). value,
                     sottotitolo: document.getElementById('appSottotitolo').value,
                     footer: document.getElementById('appFooter').value
                 },
-                colori: config.colori || {
+                colori: configData. colori || {
                     sfondo: "#1a1a2e",
                     titolo: "#FFD93D",
                     testo: "#FFFFFF",
-                    pulsante: "#FF8C00",
-                    pulsante_testo: "#FFFFFF"
+                    pulsante: "#FF8C00"
                 },
                 pulsante_principale: {
                     testo: document.getElementById('btnTesto').value,
@@ -285,25 +261,18 @@
                 links: links,
                 contenuti: contenuti
             };
-            document.getElementById('jsonOutput').textContent = JSON.stringify(newConfig, null, 2);
+            document.getElementById('jsonOutput'). textContent = JSON.stringify(newConfig, null, 2);
         }
 
         function copiaJSON() {
-            const json = document.getElementById('jsonOutput').textContent;
+            var json = document.getElementById('jsonOutput').textContent;
             navigator.clipboard.writeText(json);
-            const notice = document.getElementById('copyNotice');
+            var notice = document.getElementById('copyNotice');
             notice.style.display = 'block';
-            setTimeout(() => notice.style.display = 'none', 2000);
+            setTimeout(function() { notice.style.display = 'none'; }, 2000);
         }
 
-        // Aggiorna JSON quando cambiano i campi principali
-        document.addEventListener('DOMContentLoaded', function() {
-            caricaConfig();
-            
-            ['appTitolo', 'appSottotitolo', 'appFooter', 'btnTesto', 'btnClick'].forEach(id => {
-                document.getElementById(id)?.addEventListener('input', generaJSON);
-            });
-        });
+        window.onload = caricaConfig;
     </script>
 </body>
 </html>
