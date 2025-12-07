@@ -35,7 +35,7 @@
             font-size: 16px;
         }
         textarea { min-height: 80px; resize: vertical; }
-        . btn {
+        .btn {
             background: #FF8C00;
             color: white;
             padding: 12px 25px;
@@ -45,8 +45,8 @@
             cursor: pointer;
             margin: 5px;
         }
-        . btn:hover { background: #e67e00; }
-        . btn-add { background: #28a745; }
+        .btn:hover { background: #e67e00; }
+        .btn-add { background: #28a745; }
         .btn-remove { background: #dc3545; padding: 8px 15px; font-size: 14px; }
         .item-card {
             background: rgba(0,0,0,0.2);
@@ -62,7 +62,7 @@
             overflow-x: auto;
         }
         .output-box pre { color: #58a6ff; font-size: 13px; white-space: pre-wrap; }
-        . instructions {
+        .instructions {
             background: rgba(255, 217, 61, 0.1);
             border-left: 4px solid #FFD93D;
             padding: 15px;
@@ -70,7 +70,7 @@
             border-radius: 0 10px 10px 0;
         }
         .instructions a { color: #58a6ff; }
-        . copy-notice {
+        .copy-notice {
             background: #28a745;
             padding: 10px;
             border-radius: 8px;
@@ -79,22 +79,22 @@
             text-align: center;
         }
         .loading { text-align: center; padding: 20px; color: #FFD93D; }
-        . error { color: #ff6b6b; }
+        .error { color: #ff6b6b; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Lion App - Pannello Admin</h1>
-        <p class="subtitle">Modifica la tua app senza ricompilare! </p>
+        <p class="subtitle">Modifica la tua app senza ricompilare!</p>
 
         <div class="instructions">
             <strong>Come usare:</strong><br>
             1. Modifica le impostazioni qui sotto<br>
             2. Clicca "Genera JSON"<br>
-            3.  Copia il JSON<br>
+            3. Copia il JSON<br>
             4. Clicca "Modifica su GitHub"<br>
-            5.  Incolla e salva<br>
-            6.  Apri l'app e clicca "Aggiorna"!
+            5. Incolla e salva<br>
+            6. Apri l'app e clicca "Aggiorna"!
         </div>
 
         <div id="loadingMsg" class="loading">Caricamento configurazione...</div>
@@ -144,10 +144,11 @@
                 <h2>Genera Configurazione</h2>
                 <button class="btn" onclick="generaJSON()">Genera JSON</button>
                 <button class="btn" onclick="copiaJSON()">Copia</button>
+                <!-- CAMBIA QUESTO LINK SE USI config.json O contenuti.json -->
                 <a href="https://github.com/mauri63/Mauri/edit/main/config.json" target="_blank">
                     <button class="btn">Modifica su GitHub</button>
                 </a>
-                <div class="copy-notice" id="copyNotice">Copiato negli appunti! </div>
+                <div class="copy-notice" id="copyNotice">Copiato negli appunti!</div>
                 <div class="output-box">
                     <pre id="jsonOutput">{}</pre>
                 </div>
@@ -161,18 +162,24 @@
         var configData = {};
 
         function caricaConfig() {
-            var url = 'https://mauri63. github.io/Mauri/config.json?t='+ new Date().getTime();
+            // CORREGGI QUESTA RIGA - RIMUOVI LO SPAZIO DOPO "mauri63."
+            var url = 'https://mauri63.github.io/Mauri/config.json?t=' + new Date().getTime();
+            
             fetch(url)
                 .then(function(response) {
+                    if (!response.ok) {
+                        // Se il file non esiste, usa dati di default
+                        throw new Error('File non trovato, uso dati di default');
+                    }
                     return response.json();
                 })
                 .then(function(data) {
                     configData = data;
-                    document.getElementById('appTitolo'). value = data.app && data.app.titolo ?  data.app.titolo : 'LION APP';
-                    document. getElementById('appSottotitolo').value = data.app && data.app.sottotitolo ?  data.app.sottotitolo : '';
+                    document.getElementById('appTitolo').value = data.app && data.app.titolo ? data.app.titolo : 'LION APP';
+                    document.getElementById('appSottotitolo').value = data.app && data.app.sottotitolo ? data.app.sottotitolo : '';
                     document.getElementById('appFooter').value = data.app && data.app.footer ? data.app.footer : '';
-                    document.getElementById('btnTesto').value = data.pulsante_principale && data.pulsante_principale.testo ?  data.pulsante_principale. testo : 'RUGGISCI!';
-                    document.getElementById('btnClick').value = data.pulsante_principale && data.pulsante_principale. testo_click ? data.pulsante_principale.testo_click : 'ROAR! ';
+                    document.getElementById('btnTesto').value = data.pulsante_principale && data.pulsante_principale.testo ? data.pulsante_principale.testo : 'RUGGISCI!';
+                    document.getElementById('btnClick').value = data.pulsante_principale && data.pulsante_principale.testo_click ? data.pulsante_principale.testo_click : 'ROAR!';
                     links = data.links || [];
                     contenuti = data.contenuti || [];
                     renderLinks();
@@ -182,8 +189,48 @@
                     document.getElementById('mainContent').style.display = 'block';
                 })
                 .catch(function(error) {
-                    console.error('Errore:', error);
-                    document.getElementById('loadingMsg').innerHTML = '<span class="error">Errore nel caricamento.  Ricarica la pagina.</span>';
+                    console.log('Usando configurazione di default:', error);
+                    
+                    // DATI DI DEFAULT se il file non esiste
+                    configData = {
+                        app: {
+                            titolo: "LION APP",
+                            sottotitolo: "Benvenuto nella tua app",
+                            footer: "© 2024 Lion App"
+                        },
+                        colori: {
+                            sfondo: "#1a1a2e",
+                            titolo: "#FFD93D",
+                            testo: "#FFFFFF",
+                            pulsante: "#FF8C00"
+                        },
+                        pulsante_principale: {
+                            testo: "RUGGISCI!",
+                            testo_click: "ROAR!"
+                        },
+                        links: [
+                            { nome: "GitHub", url: "https://github.com", icona: "🐙" }
+                        ],
+                        contenuti: [
+                            { titolo: "Benvenuto", descrizione: "Primo messaggio di benvenuto!" }
+                        ]
+                    };
+                    
+                    // Popola i campi con dati di default
+                    document.getElementById('appTitolo').value = configData.app.titolo;
+                    document.getElementById('appSottotitolo').value = configData.app.sottotitolo;
+                    document.getElementById('appFooter').value = configData.app.footer;
+                    document.getElementById('btnTesto').value = configData.pulsante_principale.testo;
+                    document.getElementById('btnClick').value = configData.pulsante_principale.testo_click;
+                    
+                    links = configData.links;
+                    contenuti = configData.contenuti;
+                    
+                    renderLinks();
+                    renderContenuti();
+                    generaJSON();
+                    document.getElementById('loadingMsg').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
                 });
         }
 
@@ -195,9 +242,9 @@
                 html += '<div class="form-group"><label>Icona (emoji)</label>';
                 html += '<input type="text" value="' + (links[i].icona || '') + '" onchange="links[' + i + '].icona=this.value; generaJSON();"></div>';
                 html += '<div class="form-group"><label>Nome</label>';
-                html += '<input type="text" value="' + (links[i]. nome || '') + '" onchange="links[' + i + '].nome=this.value; generaJSON();"></div>';
+                html += '<input type="text" value="' + (links[i].nome || '') + '" onchange="links[' + i + '].nome=this.value; generaJSON();"></div>';
                 html += '<div class="form-group"><label>URL</label>';
-                html += '<input type="url" value="' + (links[i].url || '') + '" onchange="links[' + i + '].url=this. value; generaJSON();"></div>';
+                html += '<input type="url" value="' + (links[i].url || '') + '" onchange="links[' + i + '].url=this.value; generaJSON();"></div>';
                 html += '<button class="btn btn-remove" onclick="rimuoviLink(' + i + ')">Rimuovi</button></div>';
             }
             container.innerHTML = html;
@@ -223,7 +270,7 @@
                 html += '<div class="form-group"><label>Titolo</label>';
                 html += '<input type="text" value="' + (contenuti[i].titolo || '') + '" onchange="contenuti[' + i + '].titolo=this.value; generaJSON();"></div>';
                 html += '<div class="form-group"><label>Descrizione</label>';
-                html += '<textarea onchange="contenuti[' + i + '].descrizione=this. value; generaJSON();">' + (contenuti[i].descrizione || '') + '</textarea></div>';
+                html += '<textarea onchange="contenuti[' + i + '].descrizione=this.value; generaJSON();">' + (contenuti[i].descrizione || '') + '</textarea></div>';
                 html += '<button class="btn btn-remove" onclick="rimuoviContenuto(' + i + ')">Rimuovi</button></div>';
             }
             container.innerHTML = html;
@@ -244,11 +291,11 @@
         function generaJSON() {
             var newConfig = {
                 app: {
-                    titolo: document.getElementById('appTitolo'). value,
+                    titolo: document.getElementById('appTitolo').value,
                     sottotitolo: document.getElementById('appSottotitolo').value,
                     footer: document.getElementById('appFooter').value
                 },
-                colori: configData. colori || {
+                colori: configData.colori || {
                     sfondo: "#1a1a2e",
                     titolo: "#FFD93D",
                     testo: "#FFFFFF",
@@ -261,7 +308,7 @@
                 links: links,
                 contenuti: contenuti
             };
-            document.getElementById('jsonOutput'). textContent = JSON.stringify(newConfig, null, 2);
+            document.getElementById('jsonOutput').textContent = JSON.stringify(newConfig, null, 2);
         }
 
         function copiaJSON() {
