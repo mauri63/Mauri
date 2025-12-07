@@ -8,17 +8,16 @@
     "sfondo": "#1a1a2e",
     "titolo": "#FFD93D",
     "testo": "#FFFFFF",
-    "pulsante": "#FF8C00",
-    "pulsante_testo": "#FFFFFF"
+    "pulsante": "#FF8C00"
   },
   "pulsante_principale": {
-    "testo": "RUGGISCI! 🔊",
+    "testo": "RUGGISCI!  🔊",
     "testo_click": "🦁 ROAR! 🦁"
   },
   "links": [
     {
-      "nome": "Sito Web",
-      "url": "https://google.com",
+      "nome": "Il mio Sito Web",
+      "url": "https://mauri63.github.io/Mauri/",
       "icona": "🌐"
     },
     {
@@ -30,16 +29,30 @@
       "nome": "Instagram",
       "url": "https://instagram.com",
       "icona": "📸"
+    },
+    {
+      "nome": "Scarica Musica",
+      "url": "https://esempio.com/musica",
+      "icona": "🎵"
+    },
+    {
+      "nome": "Scarica Video",
+      "url": "https://esempio.com/video",
+      "icona": "🎬"
     }
   ],
   "contenuti": [
     {
       "titolo": "🎉 Benvenuto!",
-      "descrizione": "Questa è la tua prima notizia."
+      "descrizione": "Grazie per aver scaricato Lion App! Qui troverai tutti i contenuti aggiornati."
     },
     {
-      "titolo": "📱 Novità",
-      "descrizione": "Nuove funzionalità in arrivo!"
+      "titolo": "📢 Novità della settimana",
+      "descrizione": "Nuovi contenuti disponibili!  Clicca sui link sopra per scoprirli."
+    },
+    {
+      "titolo": "⭐ Seguimi! ",
+      "descrizione": "Seguimi sui social per non perdere nessun aggiornamento!"
     }
   ]
 }
