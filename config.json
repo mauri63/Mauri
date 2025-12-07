@@ -2,22 +2,18 @@
   "app": {
     "titolo": "🦁 LION APP",
     "sottotitolo": "Il potere del leone nelle tue mani",
-    "footer": "Creato con ❤️ e Python",
-    "icona": "🦁"
+    "footer": "Creato con ❤️ e Python"
   },
   "colori": {
     "sfondo": "#1a1a2e",
     "titolo": "#FFD93D",
     "testo": "#FFFFFF",
-    "pulsante": "#FF8C00",
-    "link": "#58a6ff"
+    "pulsante": "#FF8C00"
   },
   "pulsante_principale": {
     "testo": "RUGGISCI! 🔊",
-    "testo_click": "🦁 ROAR! 🦁",
-    "vibrazione": true
+    "testo_click": "🦁 ROAR! 🦁"
   },
-  "sezioni": [],
   "links": [
     {
       "nome": "Il mio Sito Web",
@@ -38,20 +34,12 @@
   "contenuti": [
     {
       "titolo": "🎉 Benvenuto!",
-      "descrizione": "Grazie per aver scaricato Lion App! Qui troverai tutti i contenuti aggiornati."
+      "descrizione": "Grazie per aver scaricato Lion App!"
     },
     {
-      "titolo": "📢 Novità della settimana",
-      "descrizione": "Nuovi contenuti disponibili! Clicca sui link sopra per scoprirli."
+      "titolo": "📢 Novità",
+      "descrizione": "Nuovi contenuti disponibili ogni settimana!"
     }
   ],
-  "immagini": {
-    "sfondo": ""
-  },
-  "tema": "default",
-  "orologio": false,
-  "messaggi": {
-    "aggiornamento": "App aggiornata con successo! 🎉"
-  },
-  "ultimo_aggiornamento": "2025-12-07T18:02:52.646Z"
+  "ultimo_aggiornamento": "2025-12-07T18:25:42.670Z"
 }
