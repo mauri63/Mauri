@@ -45,9 +45,13 @@
       "descrizione": "Nuovi contenuti disponibili! Clicca sui link sopra per scoprirli."
     }
   ],
+  "immagini": {
+    "sfondo": ""
+  },
   "tema": "default",
   "orologio": false,
   "messaggi": {
     "aggiornamento": "App aggiornata con successo! 🎉"
-  }
+  },
+  "ultimo_aggiornamento": "2025-12-07T18:02:52.646Z"
 }
