@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lion App</title>
     <style>
-        /* RESET MOBILE */
         * { 
             margin: 0; 
             padding: 0; 
@@ -22,7 +21,6 @@
             overflow-x: hidden;
         }
         
-        /* HEADER GRANDE E VISIBILE */
         .app-header {
             text-align: center;
             margin-bottom: 30px;
@@ -54,7 +52,6 @@
             line-height: 1.4;
         }
         
-        /* PULSANTE PRINCIPALE - GRANDE E TATTILE */
         .main-action {
             display: block;
             width: 90%;
@@ -79,7 +76,6 @@
             box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
         }
         
-        /* SEZIONE LINK RAPIDI */
         .section-title {
             font-size: 20px;
             font-weight: 700;
@@ -142,7 +138,6 @@
             line-height: 1.3;
         }
         
-        /* NOTIZIE - OTTIMIZZATE PER MOBILE */
         .news-container {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
@@ -179,7 +174,6 @@
             color: #e2e8f0;
         }
         
-        /* FOOTER */
         .app-footer {
             text-align: center;
             margin-top: 40px;
@@ -189,7 +183,6 @@
             font-size: 14px;
         }
         
-        /* ANIMAZIONI */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -199,7 +192,6 @@
             animation: fadeIn 0.5s ease-out;
         }
         
-        /* PULSANTE AGGIORNAMENTO */
         .update-btn {
             position: fixed;
             bottom: 20px;
@@ -216,7 +208,6 @@
             z-index: 100;
         }
         
-        /* MEDIA QUERIES */
         @media (max-width: 360px) {
             .links-grid {
                 grid-template-columns: 1fr;
@@ -243,49 +234,42 @@
     </style>
 </head>
 <body>
-    <!-- APP HEADER -->
     <header class="app-header fade-in">
         <div class="app-icon">🦁</div>
         <h1 class="app-title">LION APP</h1>
         <p class="app-subtitle">Tutto il potere del leone nel tuo telefono</p>
     </header>
     
-    <!-- PULSANTE PRINCIPALE -->
     <button class="main-action fade-in" onclick="roar()">
         <span id="btnText">RUGGISCI! 🔊</span>
     </button>
     
-    <!-- LINK RAPIDI -->
     <div class="section-title fade-in">
         <span>🔗</span> ACCESSI RAPIDI
     </div>
     
     <div class="links-grid fade-in" id="linksContainer">
-        <!-- I link verranno caricati qui dinamicamente -->
+        <!-- Links dinamici -->
     </div>
     
-    <!-- NOTIZIE -->
     <div class="section-title fade-in">
         <span>📰</span> ULTIME NOTIZIE
     </div>
     
     <div class="news-container fade-in" id="newsContainer">
-        <!-- Le notizie verranno caricate qui -->
+        <!-- Notizie dinamiche -->
     </div>
     
-    <!-- FOOTER -->
     <footer class="app-footer fade-in">
         <p>Creato con ❤️ per i veri leoni</p>
         <p style="font-size: 12px; margin-top: 5px;">Tocca l'icona 🔄 per aggiornare i contenuti</p>
     </footer>
     
-    <!-- PULSANTE AGGIORNAMENTO -->
     <button class="update-btn" onclick="caricaContenuti()">
         🔄
     </button>
     
     <script>
-        // CONFIGURAZIONE - MODIFICA QUESTI DATI
         const config = {
             app: {
                 titolo: "LION APP",
@@ -302,7 +286,6 @@
                 testo: "RUGGISCI! 🔊",
                 testo_click: "🦁 ROAR! 🦁"
             },
-            // 🔥 ICONE OTTIMIZZATE PER MOBILE
             links: [
                 {
                     nome: "SITO WEB",
@@ -341,7 +324,6 @@
                     desc: "Scrivimi qui"
                 }
             ],
-            // 📱 CONTENUTI OTTIMIZZATI PER MOBILE
             contenuti: [
                 {
                     titolo: "🎉 BENVENUTO!",
@@ -358,30 +340,24 @@
             ]
         };
         
-        // FUNZIONE PRINCIPALE
         function roar() {
             const btn = document.querySelector('.main-action');
             const btnText = document.getElementById('btnText');
             
-            // Cambia testo
             btnText.textContent = config.pulsante_principale.testo_click;
             
-            // Effetto vibrazione (se supportato)
             if (navigator.vibrate) {
                 navigator.vibrate([50, 50, 100]);
             }
             
-            // Cambia colore temporaneo
             btn.style.background = 'linear-gradient(145deg, #FF6B00, #FF4500)';
             
-            // Ripristina dopo 1 secondo
             setTimeout(() => {
                 btnText.textContent = config.pulsante_principale.testo;
                 btn.style.background = 'linear-gradient(145deg, #FF8C00, #FF6B00)';
             }, 1000);
         }
         
-        // CARICA I LINK
         function caricaLinks() {
             const container = document.getElementById('linksContainer');
             let html = '';
@@ -399,13 +375,12 @@
             container.innerHTML = html;
         }
         
-        // CARICA NOTIZIE
         function caricaNotizie() {
             const container = document.getElementById('newsContainer');
             let html = '';
             
             config.contenuti.forEach((notizia, index) => {
-                const emoji = notizia.titolo.substring(0, 2); // Prendi l'emoji dal titolo
+                const emoji = notizia.titolo.substring(0, 2);
                 const titoloSenzaEmoji = notizia.titolo.substring(2).trim();
                 
                 html += `
@@ -422,25 +397,19 @@
             container.innerHTML = html;
         }
         
-        // CARICA TUTTI I CONTENUTI
         function caricaContenuti() {
-            // Aggiorna titolo e sottotitolo
             document.querySelector('.app-title').textContent = config.app.titolo;
             document.querySelector('.app-subtitle').textContent = config.app.sottotitolo;
             document.querySelector('.app-footer p').textContent = config.app.footer;
             
-            // Aggiorna pulsante
             document.getElementById('btnText').textContent = config.pulsante_principale.testo;
             
-            // Carica link e notizie
             caricaLinks();
             caricaNotizie();
             
-            // Mostra notifica
             showNotification('📱 App aggiornata!');
         }
         
-        // NOTIFICA TEMPORANEA
         function showNotification(message) {
             const notification = document.createElement('div');
             notification.style.cssText = `
@@ -465,7 +434,6 @@
                 setTimeout(() => notification.remove(), 300);
             }, 2000);
             
-            // Aggiungi le animazioni CSS
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes slideDown {
@@ -480,20 +448,13 @@
             document.head.appendChild(style);
         }
         
-        // CARICAMENTO INIZIALE
         window.onload = function() {
             caricaContenuti();
             
-            // Aggiungi animazioni di ingresso
             document.querySelectorAll('.fade-in').forEach((el, index) => {
                 el.style.animationDelay = `${index * 0.1}s`;
             });
         };
-        
-        // SUPPORTO VIBRAZIONE
-        if (navigator.vibrate) {
-            console.log('Vibrazione supportata!');
-        }
     </script>
 </body>
 </html>
