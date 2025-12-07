@@ -1,16 +1,45 @@
 {
-  "items": [
+  "app": {
+    "titolo": "🦁 LION APP",
+    "sottotitolo": "Il potere del leone nelle tue mani",
+    "footer": "Creato con ❤️ e Python"
+  },
+  "colori": {
+    "sfondo": "#1a1a2e",
+    "titolo": "#FFD93D",
+    "testo": "#FFFFFF",
+    "pulsante": "#FF8C00",
+    "pulsante_testo": "#FFFFFF"
+  },
+  "pulsante_principale": {
+    "testo": "RUGGISCI! 🔊",
+    "testo_click": "🦁 ROAR! 🦁"
+  },
+  "links": [
+    {
+      "nome": "Sito Web",
+      "url": "https://google.com",
+      "icona": "🌐"
+    },
+    {
+      "nome": "YouTube",
+      "url": "https://youtube.com",
+      "icona": "📺"
+    },
+    {
+      "nome": "Instagram",
+      "url": "https://instagram.com",
+      "icona": "📸"
+    }
+  ],
+  "contenuti": [
     {
       "titolo": "🎉 Benvenuto!",
-      "descrizione": "Questa è la tua prima notizia.  Puoi modificarla quando vuoi da GitHub!"
+      "descrizione": "Questa è la tua prima notizia."
     },
     {
-      "titolo": "📱 Novità App",
-      "descrizione": "L'app ora si collega al web per mostrarti contenuti sempre aggiornati!"
-    },
-    {
-      "titolo": "💡 Come funziona",
-      "descrizione": "Modifica questo file JSON su GitHub e l'app mostrerà i nuovi contenuti!"
+      "titolo": "📱 Novità",
+      "descrizione": "Nuove funzionalità in arrivo!"
     }
   ]
 }
