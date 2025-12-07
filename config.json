@@ -5,7 +5,7 @@
     "footer": "Creato con ❤️ e Python"
   },
   "colori": {
-    "sfondo": "#1a1a2e",
+    "sfondo": "#0f172a",
     "titolo": "#FFD93D",
     "testo": "#FFFFFF",
     "pulsante": "#FF8C00"
@@ -16,30 +16,54 @@
   },
   "links": [
     {
-      "nome": "Il mio Sito Web",
+      "nome": "SITO WEB",
       "url": "https://mauri63.github.io/Mauri/",
-      "icona": "🌐"
+      "icona": "🌐",
+      "desc": "Il mio sito principale"
     },
     {
-      "nome": "YouTube",
+      "nome": "VIDEO",
       "url": "https://youtube.com",
-      "icona": "📺"
+      "icona": "🎬",
+      "desc": "Video e contenuti"
     },
     {
-      "nome": "Instagram",
+      "nome": "MUSICA",
+      "url": "https://spotify.com",
+      "icona": "🎵",
+      "desc": "Playlist e brani"
+    },
+    {
+      "nome": "FOTO",
       "url": "https://instagram.com",
-      "icona": "📸"
+      "icona": "📸",
+      "desc": "Galleria fotografica"
+    },
+    {
+      "nome": "DOWNLOAD",
+      "url": "https://drive.google.com",
+      "icona": "⬇️",
+      "desc": "File da scaricare"
+    },
+    {
+      "nome": "CONTATTI",
+      "url": "mailto:tuo@email.com",
+      "icona": "📞",
+      "desc": "Scrivimi qui"
     }
   ],
   "contenuti": [
     {
-      "titolo": "🎉 Benvenuto!",
-      "descrizione": "Grazie per aver scaricato Lion App!"
+      "titolo": "🎉 BENVENUTO!",
+      "descrizione": "L'app ufficiale è finalmente qui! Nuovi contenuti ogni settimana."
     },
     {
-      "titolo": "📢 Novità",
-      "descrizione": "Nuovi contenuti disponibili ogni settimana!"
+      "titolo": "📱 APP VERA",
+      "descrizione": "Installa l'app per avere icona sulla home e funzionalità avanzate!"
+    },
+    {
+      "titolo": "⚡ VELOCITÀ",
+      "descrizione": "Caricamento istantaneo e navigazione fluida."
     }
-  ],
-  "ultimo_aggiornamento": "2025-12-07T18:25:42.670Z"
+  ]
 }
