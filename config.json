@@ -1,11 +1,11 @@
 {
   "app": {
     "titolo": "🦁 LION APP",
-    "sottotitolo": "Il potere del leone nelle tue mani",
+    "sottotitolo": "Benvenuto nella Lion App!",
     "footer": "Creato con ❤️ e Python"
   },
   "colori": {
-    "sfondo": "#0f172a",
+    "sfondo": "#1a1a2e",
     "titolo": "#FFD93D",
     "testo": "#FFFFFF",
     "pulsante": "#FF8C00"
@@ -16,54 +16,38 @@
   },
   "links": [
     {
-      "nome": "SITO WEB",
-      "url": "https://mauri63.github.io/Mauri/",
-      "icona": "🌐",
-      "desc": "Il mio sito principale"
+      "nome": "PANNELLO ADMIN",
+      "url": "https://mauri63.github.io/Mauri/admin.html",
+      "icona": "⚙️"
     },
     {
-      "nome": "VIDEO",
-      "url": "https://youtube.com",
-      "icona": "🎬",
-      "desc": "Video e contenuti"
+      "nome": "GITHUB",
+      "url": "https://github.com/mauri63",
+      "icona": "🐙"
     },
     {
-      "nome": "MUSICA",
-      "url": "https://spotify.com",
-      "icona": "🎵",
-      "desc": "Playlist e brani"
+      "nome": "CONTATTO",
+      "url": "mailto:tuamail@example.com",
+      "icona": "✉️"
     },
     {
-      "nome": "FOTO",
-      "url": "https://instagram.com",
-      "icona": "📸",
-      "desc": "Galleria fotografica"
-    },
-    {
-      "nome": "DOWNLOAD",
-      "url": "https://drive.google.com",
-      "icona": "⬇️",
-      "desc": "File da scaricare"
-    },
-    {
-      "nome": "CONTATTI",
-      "url": "mailto:tuo@email.com",
-      "icona": "📞",
-      "desc": "Scrivimi qui"
+      "nome": "AGGIORNA APP",
+      "url": "",
+      "icona": "🔄"
     }
   ],
   "contenuti": [
     {
       "titolo": "🎉 BENVENUTO!",
-      "descrizione": "L'app ufficiale è finalmente qui! Nuovi contenuti ogni settimana."
+      "descrizione": "Questa è la Lion App! Modifica i contenuti dal pannello admin e premi 🔄 per aggiornare."
     },
     {
-      "titolo": "📱 APP VERA",
-      "descrizione": "Installa l'app per avere icona sulla home e funzionalità avanzate!"
+      "titolo": "⚡ FUNZIONI PRINCIPALI",
+      "descrizione": "• Configurazione remota\n• Aggiornamenti in tempo reale\n• Interfaccia personalizzabile\n• Pulsante con vibrazione"
     },
     {
-      "titolo": "⚡ VELOCITÀ",
-      "descrizione": "Caricamento istantaneo e navigazione fluida."
+      "titolo": "📱 COME USARE",
+      "descrizione": "1. Modifica i contenuti nel pannello\n2. Premi SALVA\n3. Apri l'app e premi 🔄\n4. I contenuti si aggiornano!"
     }
   ]
 }
