@@ -5,157 +5,365 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🦁 Lion App</title>
     <style>
-        /* INTERFACCIA MOBILE */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, sans-serif; background: #0f172a; color: white; padding: 20px; min-height: 100vh; }
-        .header { text-align: center; margin: 30px 0; }
-        .lion-icon { font-size: 60px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-        .title { font-size: 34px; font-weight: 800; color: #FFD93D; margin: 10px 0; }
-        .subtitle { color: #94a3b8; font-size: 16px; }
-        .roar-btn { background: #FF8C00; color: white; border: none; padding: 20px; font-size: 22px; border-radius: 15px; width: 90%; max-width: 350px; margin: 30px auto; display: block; font-weight: bold; }
-        .section-title { color: #FFD93D; font-size: 20px; margin: 30px 0 15px 0; }
-        .links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .link-card { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 12px; text-decoration: none; text-align: center; }
-        .link-icon { font-size: 30px; margin-bottom: 8px; }
-        .link-name { color: white; font-weight: 600; }
-        .news-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin: 15px 0; }
-        .news-title { color: #FFD93D; font-weight: bold; }
-        .footer { text-align: center; margin-top: 40px; color: #64748b; }
+        /* STILE MOBILE SEMPLICE */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f172a;
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .lion-icon {
+            font-size: 70px;
+            margin-bottom: 10px;
+        }
+        
+        .title {
+            font-size: 36px;
+            font-weight: 900;
+            color: #FFD93D;
+            margin: 10px 0;
+        }
+        
+        .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .roar-btn {
+            background: #FF8C00;
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 20px;
+            width: 100%;
+            margin: 30px 0;
+            cursor: pointer;
+            display: block;
+        }
+        
+        .roar-btn:active {
+            background: #FF6B00;
+            transform: scale(0.98);
+        }
+        
+        .section-title {
+            color: #FFD93D;
+            font-size: 22px;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #334155;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .link-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .link-card:active {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .link-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .link-name {
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .link-desc {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .news-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FF8C00;
+        }
+        
+        .news-title {
+            color: #FFD93D;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .news-content {
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #334155;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .update-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        
+        .debug-info {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 12px;
+            color: #ff6b6b;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="lion-icon">🦁</div>
-        <h1 class="title" id="appTitle">LION APP</h1>
-        <p class="subtitle" id="appSubtitle">Caricamento...</p>
-    </div>
-    
-    <button class="roar-btn" onclick="roar()" id="roarBtn">RUGGISCI! 🔊</button>
-    
-    <h2 class="section-title">🔗 LINK RAPIDI</h2>
-    <div class="links-grid" id="linksContainer">
-        <div style="color:#94a3b8; text-align:center; grid-column: span 2;">
-            Caricamento link...
+    <div class="container">
+        <!-- DEBUG INFO -->
+        <div class="debug-info" id="debugInfo">
+            Stato: Caricamento in corso...
         </div>
-    </div>
-    
-    <h2 class="section-title">📰 NOTIZIE</h2>
-    <div id="newsContainer">
-        <div class="news-item">
-            <div class="news-title">Caricamento...</div>
-            <div>Attendere prego</div>
-        </div>
-    </div>
-    
-    <div class="footer" id="appFooter">
-        © 2024 Lion App
-    </div>
-
-    <script>
-        // DEBUG MESSAGES
-        console.log('=== LION APP START ===');
         
-        // CARICA CONFIG
-        function loadConfig() {
-            const configUrl = 'https://raw.githubusercontent.com/mauri63/Mauri/main/config.json?t=' + new Date().getTime();
-            console.log('URL config:', configUrl);
-            
-            fetch(configUrl)
-                .then(response => {
-                    console.log('Status:', response.status);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(config => {
-                    console.log('Config OK:', config);
-                    updateUI(config);
-                })
-                .catch(error => {
-                    console.error('ERRORE caricamento config:', error);
-                    // Dati di default se config non esiste
-                    const defaultConfig = {
-                        app: { titolo: "LION APP", sottotitolo: "Config non trovata", footer: "Crea config.json su GitHub" },
-                        pulsante_principale: { testo: "RUGGISCI! 🔊" },
-                        links: [],
-                        contenuti: []
-                    };
-                    updateUI(defaultConfig);
-                    alert('⚠️ Crea config.json su GitHub! Vai a /admin.html');
-                });
+        <!-- HEADER -->
+        <div class="header">
+            <div class="lion-icon">🦁</div>
+            <h1 class="title" id="appTitle">LION APP</h1>
+            <p class="subtitle" id="appSubtitle">Il potere del leone nelle tue mani</p>
+        </div>
+        
+        <!-- PULSANTE PRINCIPALE -->
+        <button class="roar-btn" id="roarButton">
+            RUGGISCI! 🔊
+        </button>
+        
+        <!-- LINKS -->
+        <h2 class="section-title">🔗 LINK RAPIDI</h2>
+        <div class="links-grid" id="linksContainer">
+            <div class="link-card">
+                <span class="link-icon">🌐</span>
+                <div class="link-name">SITO WEB</div>
+                <div class="link-desc">Caricamento...</div>
+            </div>
+        </div>
+        
+        <!-- NOTIZIE -->
+        <h2 class="section-title">📰 ULTIME NOTIZIE</h2>
+        <div id="newsContainer">
+            <div class="news-card">
+                <div class="news-title">Caricamento...</div>
+                <div class="news-content">Attendere prego</div>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="footer" id="appFooter">
+            © 2024 Lion App
+        </div>
+    </div>
+    
+    <!-- PULSANTE AGGIORNA -->
+    <button class="update-btn" id="updateButton">
+        🔄
+    </button>
+
+    <!-- SCRIPT SEMPLICE E SICURO -->
+    <script>
+        // DEBUG: Messaggio iniziale
+        console.log('=== LION APP INIZIALIZZATA ===');
+        
+        // ELEMENTI DOM
+        const debugInfo = document.getElementById('debugInfo');
+        const appTitle = document.getElementById('appTitle');
+        const appSubtitle = document.getElementById('appSubtitle');
+        const roarButton = document.getElementById('roarButton');
+        const linksContainer = document.getElementById('linksContainer');
+        const newsContainer = document.getElementById('newsContainer');
+        const appFooter = document.getElementById('appFooter');
+        const updateButton = document.getElementById('updateButton');
+        
+        // FUNZIONE PER AGGIORNARE DEBUG INFO
+        function updateDebug(message, isError = false) {
+            debugInfo.textContent = 'Stato: ' + message;
+            debugInfo.style.background = isError ? 'rgba(255,0,0,0.1)' : 'rgba(0,255,0,0.1)';
+            debugInfo.style.color = isError ? '#ff6b6b' : '#10b981';
+            console.log('DEBUG:', message);
         }
         
-        // AGGIORNA INTERFACCIA
-        function updateUI(config) {
-            console.log('Aggiorno UI con:', config);
+        // FUNZIONE PER CARICARE I DATI
+        async function loadAppData() {
+            updateDebug('Caricamento dati...');
             
-            // Titoli
-            document.getElementById('appTitle').textContent = config.app?.titolo || 'LION APP';
-            document.getElementById('appSubtitle').textContent = config.app?.sottotitolo || '';
-            document.getElementById('appFooter').textContent = config.app?.footer || '';
-            document.getElementById('roarBtn').textContent = config.pulsante_principale?.testo || 'RUGGISCI! 🔊';
+            try {
+                // URL del file config - VERIFICA CHE SIA CORRETTO
+                const configUrl = 'https://raw.githubusercontent.com/mauri63/Mauri/main/config.json?t=' + Date.now();
+                console.log('Fetching:', configUrl);
+                
+                const response = await fetch(configUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const config = await response.json();
+                console.log('Config ricevuta:', config);
+                updateDebug('Config caricata con successo!');
+                
+                // APPLICA LA CONFIGURAZIONE
+                applyConfig(config);
+                
+            } catch (error) {
+                console.error('ERRORE:', error);
+                updateDebug('ERRORE: ' + error.message, true);
+                
+                // DATI DI DEFAULT IN CASO DI ERRORE
+                const defaultConfig = {
+                    app: {
+                        titolo: "🦁 LION APP",
+                        sottotitolo: "Configura da admin.html",
+                        footer: "Vai su /admin.html per personalizzare"
+                    },
+                    pulsante_principale: {
+                        testo: "RUGGISCI! 🔊",
+                        testo_click: "🦁 ROAR! 🦁"
+                    },
+                    links: [
+                        { nome: "PANNELLO ADMIN", url: "admin.html", icona: "⚙️", desc: "Personalizza l'app" },
+                        { nome: "GITHUB", url: "https://github.com/mauri63/Mauri", icona: "🐙", desc: "Codice sorgente" },
+                        { nome: "SITO", url: "https://mauri63.github.io/Mauri/", icona: "🌐", desc: "Sito principale" },
+                        { nome: "AIUTO", url: "#", icona: "❓", desc: "Guida all'uso" }
+                    ],
+                    contenuti: [
+                        { titolo: "⚠️ ATTENZIONE", descrizione: "Crea il file config.json su GitHub per personalizzare l'app!" },
+                        { titolo: "🎯 COME FARE", descrizione: "1. Vai a /admin.html 2. Modifica 3. Crea config.json 4. Ricarica" }
+                    ]
+                };
+                
+                applyConfig(defaultConfig);
+            }
+        }
+        
+        // FUNZIONE PER APPLICARE LA CONFIGURAZIONE
+        function applyConfig(config) {
+            // TITOLI
+            appTitle.textContent = config.app?.titolo || 'LION APP';
+            appSubtitle.textContent = config.app?.sottotitolo || '';
+            appFooter.textContent = config.app?.footer || '© 2024 Lion App';
             
-            // Links
-            const linksContainer = document.getElementById('linksContainer');
+            // PULSANTE ROAR
+            roarButton.textContent = config.pulsante_principale?.testo || 'RUGGISCI! 🔊';
+            
+            // LINKS
             if (config.links && config.links.length > 0) {
                 let linksHtml = '';
                 config.links.forEach(link => {
                     linksHtml += `
-                    <a href="${link.url}" target="_blank" class="link-card">
-                        <div class="link-icon">${link.icona || '🔗'}</div>
+                    <a href="${link.url}" class="link-card" ${link.url.startsWith('http') ? 'target="_blank"' : ''}>
+                        <span class="link-icon">${link.icona || '🔗'}</span>
                         <div class="link-name">${link.nome || 'Link'}</div>
+                        <div class="link-desc">${link.desc || 'Clicca qui'}</div>
                     </a>
                     `;
                 });
                 linksContainer.innerHTML = linksHtml;
-            } else {
-                linksContainer.innerHTML = `
-                <div style="color:#94a3b8; text-align:center; grid-column: span 2;">
-                    Nessun link configurato. Vai a <a href="admin.html" style="color:#FF8C00;">admin.html</a>
-                </div>
-                `;
             }
             
-            // Notizie
-            const newsContainer = document.getElementById('newsContainer');
+            // NOTIZIE
             if (config.contenuti && config.contenuti.length > 0) {
                 let newsHtml = '';
-                config.contenuti.forEach(news => {
+                config.contenuti.forEach(item => {
                     newsHtml += `
-                    <div class="news-item">
-                        <div class="news-title">${news.titolo || 'Notizia'}</div>
-                        <div>${news.descrizione || ''}</div>
+                    <div class="news-card">
+                        <div class="news-title">${item.titolo || 'Notizia'}</div>
+                        <div class="news-content">${item.descrizione || ''}</div>
                     </div>
                     `;
                 });
                 newsContainer.innerHTML = newsHtml;
             }
             
-            console.log('UI aggiornata con successo');
+            updateDebug('App aggiornata!');
         }
         
         // FUNZIONE ROAR
         function roar() {
-            const btn = document.getElementById('roarBtn');
-            const originalText = btn.textContent;
-            btn.textContent = '🦁 ROAR! 🦁';
-            btn.style.background = '#FF6B00';
+            const originalText = roarButton.textContent;
+            roarButton.textContent = '🦁 ROAR! 🦁';
+            roarButton.style.background = '#FF6B00';
             
-            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            // VIBRAZIONE (se supportata)
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
             
+            // RIPRISTINA DOPO 1 SECONDO
             setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '#FF8C00';
+                roarButton.textContent = originalText;
+                roarButton.style.background = '#FF8C00';
             }, 1000);
         }
         
-        // AVVIA APP
-        window.onload = function() {
-            console.log('DOM caricato, avvio app...');
-            loadConfig();
-        };
+        // EVENT LISTENERS
+        roarButton.addEventListener('click', roar);
+        updateButton.addEventListener('click', loadAppData);
+        
+        // INIZIALIZZAZIONE
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM pronto, avvio app...');
+            updateDebug('Avvio app...');
+            loadAppData();
+        });
+        
+        // GESTIONE ERRORI GLOBALI
+        window.addEventListener('error', (event) => {
+            console.error('Errore globale:', event.error);
+            updateDebug('Errore JavaScript: ' + event.message, true);
+        });
     </script>
 </body>
 </html>
