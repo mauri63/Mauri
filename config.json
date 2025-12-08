@@ -1,48 +1,9 @@
 {
-  "app": {
-    "titolo": "🦁 LION APP MAURI",
-    "sottotitolo": "Benvenuto nella Lion App!",
-    "footer": "Creato con ❤️ da Mauri"
-  },
-  "colori": {
-    "sfondo": "#1a1a2e",
-    "titolo": "#FFD93D",
-    "testo": "#FFFFFF",
-    "pulsante": "#FF8C00"
-  },
-  "pulsante_principale": {
-    "testo": "RUGGISCI! 🔊",
-    "testo_click": "🦁 ROAR! 🦁"
-  },
-  "links": [
-    {
-      "nome": "PANNELLO ADMIN",
-      "url": "https://mauri63.github.io/Mauri/admin.html",
-      "icona": "⚙️"
-    },
-    {
-      "nome": "GITHUB",
-      "url": "https://github.com/mauri63",
-      "icona": "🐙"
-    },
-    {
-      "nome": "CONTATTO",
-      "url": "mailto:mauri@example.com",
-      "icona": "✉️"
-    }
-  ],
-  "contenuti": [
-    {
-      "titolo": "🎉 BENVENUTO!",
-      "descrizione": "Questa è la Lion App!\\nModifica i contenuti dal pannello admin."
-    },
-    {
-      "titolo": "⚡ COME MODIFICARE",
-      "descrizione": "1. Vai al pannello admin\\n2. Modifica la configurazione\\n3. Salva su GitHub\\n4. Premi 🔄 nell'app"
-    },
-    {
-      "titolo": "📱 FUNZIONI",
-      "descrizione": "• Configurazione remota\\n• Aggiornamenti in tempo reale\\n• Pulsante con vibrazione\\n• Interfaccia personalizzabile"
-    }
-  ]
+    "app_title": "🦁 SUPER LION APP",
+    "subtitle": "Messaggio del giorno: Non arrenderti mai!",
+    "button_text": "CLICCA QUI PER IL SITO",
+    "background_color": "#1a1a2e",
+    "lion_color": "#FFD93D",
+    "enable_website": true,
+    "website_url": "https://mauri63.github.io/Mauri/admin"
 }
