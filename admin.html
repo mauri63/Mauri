@@ -3,827 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦁 Pannello Admin Lion App</title>
+    <title>🦁 Admin Lion App - SALVA AUTOMATICO</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        /* (MANTIENI TUTTO LO STILE PRECEDENTE) */
+        /* ... stesso CSS dell'admin organizzato ... */
         
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            color: #333;
-            margin: 0;
+        /* Aggiungi solo questo: */
+        .github-token {
+            background: #f0f0f0;
             padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #0366d6;
         }
         
-        .header {
-            background: linear-gradient(135deg, #FF8C00, #FFD93D);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+        .github-token input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
         }
         
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        
-        .header p {
-            margin: 10px 0 0 0;
-            opacity: 0.9;
-        }
-        
-        /* SEZIONI ORGANIZZATE */
-        .config-section {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            border-left: 5px solid #FF8C00;
-        }
-        
-        .section-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-        
-        .section-icon {
-            font-size: 28px;
-            margin-right: 15px;
-            background: #FFD93D;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .section-title {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #1a1a2e;
-            margin: 0;
-        }
-        
-        .section-desc {
+        .github-token small {
             color: #666;
-            font-size: 0.95em;
+            display: block;
             margin-top: 5px;
         }
         
-        /* GRIGLIA ORDINATA */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #444;
-            font-size: 0.95em;
-        }
-        
-        .form-group input[type="text"],
-        .form-group input[type="color"],
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: #FF8C00;
-            outline: none;
-        }
-        
-        .color-preview {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-left: 10px;
-            vertical-align: middle;
-            border: 2px solid #ddd;
-        }
-        
-        /* ITEM DINAMICI (links e contenuti) */
-        .dynamic-item {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 2px dashed #ddd;
-            position: relative;
-        }
-        
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .item-number {
-            background: #FF8C00;
+        .btn-save-auto {
+            background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-        
-        .remove-btn {
-            background: #ff4444;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
-        
-        .add-btn {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        /* PULSANTI AZIONE */
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 2px solid #eee;
-        }
-        
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #FF8C00, #FFD93D);
-            color: white;
-        }
-        
-        .btn-secondary {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .btn-reset {
-            background: #ff9800;
-            color: white;
-        }
-        
-        /* PREVIEW */
-        .preview-section {
-            background: #1a1a2e;
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 30px;
-        }
-        
-        .preview-title {
-            color: #FFD93D;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .status-bar {
-            background: #2d3748;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .status {
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-        
-        .status-success {
-            background: #10b981;
-            color: white;
-        }
-        
-        .status-error {
-            background: #ef4444;
-            color: white;
-        }
-        
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- HEADER -->
     <div class="header">
-        <h1>🦁 Pannello Admin Lion App</h1>
-        <p>Modifica la configurazione dell'app in modo semplice e ordinato</p>
+        <h1>🦁 Admin Lion App - SALVA DIRETTO SU GITHUB</h1>
+        <p>Modifica e salva automaticamente su GitHub!</p>
     </div>
     
-    <!-- SEZIONE 1: INFO APP -->
-    <div class="config-section">
-        <div class="section-header">
-            <div class="section-icon">📱</div>
-            <div>
-                <h2 class="section-title">Informazioni App</h2>
-                <p class="section-desc">Titolo, sottotitolo e footer dell'applicazione</p>
-            </div>
-        </div>
+    <!-- SEZIONE TOKEN GITHUB (DA FARE UNA VOLTA) -->
+    <div class="github-token">
+        <h3>🔐 Configurazione GitHub (solo una volta)</h3>
+        <p>Per salvare automaticamente, crea un token GitHub:</p>
+        <ol>
+            <li>Vai a: <a href="https://github.com/settings/tokens" target="_blank">GitHub Tokens</a></li>
+            <li>Clicca "Generate new token" → "Generate new token (classic)"</li>
+            <li>Nome: <code>Lion-App-Token</code></li>
+            <li>Seleziona: <strong>repo</strong> (tutto sotto repo)</li>
+            <li>Clicca "Generate token"</li>
+            <li><strong>COPIA IL TOKEN</strong> (lo vedi solo una volta!)</li>
+        </ol>
         
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="appTitle">Titolo App:</label>
-                <input type="text" id="appTitle" placeholder="🦁 LION APP MAURI" data-path="app.titolo">
-                <small>Il titolo principale visualizzato in alto</small>
-            </div>
-            
-            <div class="form-group">
-                <label for="appSubtitle">Sottotitolo:</label>
-                <input type="text" id="appSubtitle" placeholder="Benvenuto nella Lion App!" data-path="app.sottotitolo">
-                <small>Testo sotto il titolo principale</small>
-            </div>
-            
-            <div class="form-group">
-                <label for="appFooter">Footer:</label>
-                <input type="text" id="appFooter" placeholder="Creato con ❤️ e Python" data-path="app.footer">
-                <small>Testo in fondo alla pagina</small>
-            </div>
-        </div>
+        <label>Incolla il tuo token qui (salva nel browser):</label>
+        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+        <button onclick="saveToken()">💾 Salva Token Localmente</button>
+        <small>Il token viene salvato SOLO nel tuo browser, non su server.</small>
     </div>
     
-    <!-- SEZIONE 2: COLORI -->
-    <div class="config-section">
-        <div class="section-header">
-            <div class="section-icon">🎨</div>
-            <div>
-                <h2 class="section-title">Configurazione Colori</h2>
-                <p class="section-desc">Personalizza la palette colori dell'app</p>
-            </div>
-        </div>
-        
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="colorBg">Colore Sfondo:</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="color" id="colorBg" value="#1a1a2e" data-path="colori.sfondo">
-                    <input type="text" id="colorBgText" value="#1a1a2e" data-path="colori.sfondo">
-                    <div class="color-preview" id="colorBgPreview" style="background: #1a1a2e;"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="colorTitle">Colore Titolo:</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="color" id="colorTitle" value="#FFD93D" data-path="colori.titolo">
-                    <input type="text" id="colorTitleText" value="#FFD93D" data-path="colori.titolo">
-                    <div class="color-preview" id="colorTitlePreview" style="background: #FFD93D;"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="colorText">Colore Testo:</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="color" id="colorText" value="#FFFFFF" data-path="colori.testo">
-                    <input type="text" id="colorTextText" value="#FFFFFF" data-path="colori.testo">
-                    <div class="color-preview" id="colorTextPreview" style="background: #FFFFFF;"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="colorButton">Colore Pulsante:</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="color" id="colorButton" value="#FF8C00" data-path="colori.pulsante">
-                    <input type="text" id="colorButtonText" value="#FF8C00" data-path="colori.pulsante">
-                    <div class="color-preview" id="colorButtonPreview" style="background: #FF8C00;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- RESTANTE FORM (UGUALE A PRIMA) -->
+    <!-- ... tutte le sezioni della config ... -->
     
-    <!-- SEZIONE 3: PULSANTE ROAR -->
-    <div class="config-section">
-        <div class="section-header">
-            <div class="section-icon">🔊</div>
-            <div>
-                <h2 class="section-title">Pulsante Principale</h2>
-                <p class="section-desc">Testo del pulsante "Ruggisci"</p>
-            </div>
-        </div>
-        
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="buttonText">Testo Normale:</label>
-                <input type="text" id="buttonText" value="RUGGISCI! 🔊" data-path="pulsante_principale.testo">
-                <small>Testo visualizzato normalmente</small>
-            </div>
-            
-            <div class="form-group">
-                <label for="buttonClickText">Testo al Click:</label>
-                <input type="text" id="buttonClickText" value="🦁 ROAR! 🦁" data-path="pulsante_principale.testo_click">
-                <small>Testo visualizzato quando si clicca</small>
-            </div>
-        </div>
-    </div>
-    
-    <!-- SEZIONE 4: LINK RAPIDI -->
-    <div class="config-section">
-        <div class="section-header">
-            <div class="section-icon">🔗</div>
-            <div>
-                <h2 class="section-title">Link Rapidi</h2>
-                <p class="section-desc">Aggiungi, modifica o rimuovi i link nella griglia</p>
-            </div>
-        </div>
-        
-        <div id="linksContainer">
-            <!-- I link verranno aggiunti qui dinamicamente -->
-        </div>
-        
-        <button class="add-btn" onclick="addLink()">
-            ➕ Aggiungi Link
-        </button>
-    </div>
-    
-    <!-- SEZIONE 5: CONTENUTI/NOTIZIE -->
-    <div class="config-section">
-        <div class="section-header">
-            <div class="section-icon">📰</div>
-            <div>
-                <h2 class="section-title">Contenuti & Notizie</h2>
-                <p class="section-desc">Aggiungi contenuti o notizie alla sezione principale</p>
-            </div>
-        </div>
-        
-        <div id="contentsContainer">
-            <!-- I contenuti verranno aggiunti qui dinamicamente -->
-        </div>
-        
-        <button class="add-btn" onclick="addContent()">
-            ➕ Aggiungi Contenuto
-        </button>
-    </div>
-    
-    <!-- SEZIONE PREVIEW -->
-    <div class="preview-section">
-        <h3 class="preview-title">📱 Anteprima Configurazione</h3>
-        <div class="status-bar">
-            <span>Stato configurazione:</span>
-            <span class="status" id="configStatus">Non salvato</span>
-        </div>
-        <pre id="jsonPreview" style="background: #2d3748; padding: 15px; border-radius: 8px; overflow: auto; max-height: 300px; font-family: monospace; font-size: 12px; color: #e2e8f0;"></pre>
-    </div>
-    
-    <!-- PULSANTI AZIONE -->
+    <!-- PULSANTI AGGIORNATI -->
     <div class="action-buttons">
         <button class="btn btn-reset" onclick="resetToDefault()">
-            🔄 Reset Default
+            🔄 Reset
         </button>
         
         <button class="btn btn-secondary" onclick="loadFromGitHub()">
-            📥 Carica da GitHub
+            📥 Carica Config
         </button>
         
-        <button class="btn btn-primary" onclick="saveConfig()">
-            💾 Salva su GitHub
+        <button class="btn btn-save-auto" onclick="saveToGitHubAuto()">
+            🚀 Salva Automatico su GitHub
         </button>
+        
+        <button class="btn btn-primary" onclick="showJsonForManual()">
+            📋 Copia per Salvataggio Manuale
+        </button>
+    </div>
+    
+    <!-- STATUS AGGIORNATO -->
+    <div class="preview-section">
+        <div class="status-bar">
+            <span>Stato:</span>
+            <span class="status" id="configStatus">Pronto</span>
+        </div>
+        <pre id="jsonPreview">{}</pre>
     </div>
 
     <script>
-        // CONFIGURAZIONE BASE
-        let currentConfig = {
-            "app": {
-                "titolo": "🦁 LION APP MAURI",
-                "sottotitolo": "Benvenuto nella Lion App!",
-                "footer": "Creato con ❤️ e Python"
-            },
-            "colori": {
-                "sfondo": "#1a1a2e",
-                "titolo": "#FFD93D",
-                "testo": "#FFFFFF",
-                "pulsante": "#FF8C00"
-            },
-            "pulsante_principale": {
-                "testo": "RUGGISCI! 🔊",
-                "testo_click": "🦁 ROAR! 🦁"
-            },
-            "links": [
-                {
-                    "nome": "PANNELLO ADMIN",
-                    "url": "https://mauri63.github.io/Mauri/admin.html",
-                    "icona": "⚙️"
-                }
-            ],
-            "contenuti": [
-                {
-                    "titolo": "🎉 BENVENUTO!",
-                    "descrizione": "Questa è la Lion App! Modifica i contenuti dal pannello admin e premi 🔄 per aggiornare."
-                }
-            ]
-        };
+        // 1. GESTIONE TOKEN (salvato localmente)
+        const TOKEN_KEY = 'github_token_lionapp';
         
-        // INIZIALIZZA LA PAGINA
-        function initPage() {
-            // Carica la configurazione da GitHub se esiste
-            loadFromGitHub();
-            
-            // Imposta gli event listeners per i colori
-            setupColorPickers();
-            
-            // Aggiorna l'anteprima
-            updatePreview();
+        function saveToken() {
+            const token = document.getElementById('githubToken').value;
+            if (token && token.startsWith('ghp_')) {
+                localStorage.setItem(TOKEN_KEY, token);
+                alert('✅ Token salvato nel browser!');
+            } else {
+                alert('❌ Token non valido. Deve iniziare con ghp_');
+            }
         }
         
-        // SETUP COLOR PICKERS
-        function setupColorPickers() {
-            const colorInputs = document.querySelectorAll('input[type="color"]');
-            colorInputs.forEach(input => {
-                const textInput = document.getElementById(input.id + 'Text');
-                const preview = document.getElementById(input.id + 'Preview');
-                
-                // Sincronizza input colore -> testo
-                input.addEventListener('input', (e) => {
-                    textInput.value = e.target.value;
-                    if (preview) preview.style.background = e.target.value;
-                    updateField(e.target);
-                });
-                
-                // Sincronizza testo -> colore
-                textInput.addEventListener('input', (e) => {
-                    if (isValidHex(e.target.value)) {
-                        input.value = e.target.value;
-                        if (preview) preview.style.background = e.target.value;
-                        updateField(textInput);
-                    }
-                });
-            });
+        function getToken() {
+            return localStorage.getItem(TOKEN_KEY);
         }
         
-        // VALIDA HEX COLOR
-        function isValidHex(color) {
-            return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color);
-        }
-        
-        // AGGIUNGI LINK
-        function addLink(link = null) {
-            const container = document.getElementById('linksContainer');
-            const index = container.children.length;
+        // 2. FUNZIONE SALVATAGGIO AUTOMATICO
+        async function saveToGitHubAuto() {
+            const status = document.getElementById('configStatus');
+            const token = getToken();
             
-            const linkItem = {
-                nome: link?.nome || `Link ${index + 1}`,
-                url: link?.url || "#",
-                icona: link?.icona || "🔗"
-            };
-            
-            const html = `
-            <div class="dynamic-item" data-index="${index}">
-                <div class="item-header">
-                    <div class="item-number">${index + 1}</div>
-                    <button class="remove-btn" onclick="removeItem(this, 'links')">✖ Rimuovi</button>
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Nome Link:</label>
-                        <input type="text" value="${linkItem.nome}" 
-                               oninput="updateDynamicField(this, 'links', ${index}, 'nome')" 
-                               placeholder="Es: PANNELLO ADMIN">
-                    </div>
-                    <div class="form-group">
-                        <label>URL:</label>
-                        <input type="text" value="${linkItem.url}" 
-                               oninput="updateDynamicField(this, 'links', ${index}, 'url')" 
-                               placeholder="https://...">
-                    </div>
-                    <div class="form-group">
-                        <label>Icona:</label>
-                        <input type="text" value="${linkItem.icona}" 
-                               oninput="updateDynamicField(this, 'links', ${index}, 'icona')" 
-                               placeholder="⚙️">
-                    </div>
-                </div>
-            </div>
-            `;
-            
-            container.insertAdjacentHTML('beforeend', html);
-            if (!link) currentConfig.links.push(linkItem);
-            updatePreview();
-        }
-        
-        // AGGIUNGI CONTENUTO
-        function addContent(content = null) {
-            const container = document.getElementById('contentsContainer');
-            const index = container.children.length;
-            
-            const contentItem = {
-                titolo: content?.titolo || `Titolo ${index + 1}`,
-                descrizione: content?.descrizione || `Descrizione del contenuto ${index + 1}`
-            };
-            
-            const html = `
-            <div class="dynamic-item" data-index="${index}">
-                <div class="item-header">
-                    <div class="item-number">${index + 1}</div>
-                    <button class="remove-btn" onclick="removeItem(this, 'contenuti')">✖ Rimuovi</button>
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Titolo:</label>
-                        <input type="text" value="${contentItem.titolo}" 
-                               oninput="updateDynamicField(this, 'contenuti', ${index}, 'titolo')" 
-                               placeholder="Es: 🎉 BENVENUTO!">
-                    </div>
-                    <div class="form-group">
-                        <label>Descrizione:</label>
-                        <textarea rows="3" 
-                               oninput="updateDynamicField(this, 'contenuti', ${index}, 'descrizione')" 
-                               placeholder="Scrivi la descrizione...">${contentItem.descrizione}</textarea>
-                    </div>
-                </div>
-            </div>
-            `;
-            
-            container.insertAdjacentHTML('beforeend', html);
-            if (!content) currentConfig.contenuti.push(contentItem);
-            updatePreview();
-        }
-        
-        // RIMUOVI ITEM
-        function removeItem(button, type) {
-            const item = button.closest('.dynamic-item');
-            const index = parseInt(item.dataset.index);
-            
-            // Rimuovi dalla configurazione
-            currentConfig[type].splice(index, 1);
-            
-            // Rimuovi dal DOM
-            item.remove();
-            
-            // Rinumera gli elementi rimanenti
-            renumberItems(type);
-            updatePreview();
-        }
-        
-        // RINUMERA ITEMS DOPO RIMOZIONE
-        function renumberItems(type) {
-            const containerId = type === 'links' ? 'linksContainer' : 'contentsContainer';
-            const container = document.getElementById(containerId);
-            const items = container.querySelectorAll('.dynamic-item');
-            
-            items.forEach((item, newIndex) => {
-                item.dataset.index = newIndex;
-                const numberDiv = item.querySelector('.item-number');
-                if (numberDiv) numberDiv.textContent = newIndex + 1;
-                
-                // Aggiorna gli attributi oninput
-                const inputs = item.querySelectorAll('[oninput*="' + type + '"]');
-                inputs.forEach(input => {
-                    const oldOnInput = input.getAttribute('oninput');
-                    const newOnInput = oldOnInput.replace(/\[(\d+)\]/, '[' + newIndex + ']');
-                    input.setAttribute('oninput', newOnInput);
-                });
-            });
-        }
-        
-        // AGGIORNA CAMPO DINAMICO
-        function updateDynamicField(input, type, index, field) {
-            if (!currentConfig[type][index]) currentConfig[type][index] = {};
-            currentConfig[type][index][field] = input.value;
-            updatePreview();
-        }
-        
-        // AGGIORNA CAMPO SEMPLICE
-        function updateField(input) {
-            const path = input.dataset.path;
-            if (!path) return;
-            
-            const value = input.type === 'color' ? input.value : input.value;
-            setNestedValue(currentConfig, path, value);
-            updatePreview();
-        }
-        
-        // FUNZIONE PER SETTARE VALORI NESTED
-        function setNestedValue(obj, path, value) {
-            const keys = path.split('.');
-            let current = obj;
-            
-            for (let i = 0; i < keys.length - 1; i++) {
-                if (!current[keys[i]]) current[keys[i]] = {};
-                current = current[keys[i]];
+            if (!token) {
+                status.textContent = '❌ Token non configurato';
+                status.className = 'status status-error';
+                alert('Prima configura il token GitHub! Leggi le istruzioni sopra.');
+                return;
             }
             
-            current[keys[keys.length - 1]] = value;
-        }
-        
-        // CARICA DA GITHUB
-        async function loadFromGitHub() {
-            const status = document.getElementById('configStatus');
-            status.textContent = 'Caricamento...';
+            status.textContent = '🔄 Invio a GitHub...';
             status.className = 'status';
+            
+            const config = currentConfig; // La tua configurazione corrente
             
             try {
-                const response = await fetch('https://raw.githubusercontent.com/mauri63/Mauri/main/config.json?t=' + Date.now());
-                
-                if (!response.ok) throw new Error('File non trovato');
-                
-                const config = await response.json();
-                currentConfig = config;
-                populateForm(config);
-                
-                status.textContent = 'Caricato da GitHub ✓';
-                status.className = 'status status-success';
-                
-                updatePreview();
-            } catch (error) {
-                console.warn('Configurazione non trovata, usando default');
-                status.textContent = 'Usando configurazione default';
-                status.className = 'status status-error';
-            }
-        }
-        
-        // POPOLA IL FORM CON I DATI
-        function populateForm(config) {
-            // App info
-            document.getElementById('appTitle').value = config.app?.titolo || '';
-            document.getElementById('appSubtitle').value = config.app?.sottotitolo || '';
-            document.getElementById('appFooter').value = config.app?.footer || '';
-            
-            // Colori
-            document.getElementById('colorBg').value = config.colori?.sfondo || '#1a1a2e';
-            document.getElementById('colorBgText').value = config.colori?.sfondo || '#1a1a2e';
-            document.getElementById('colorBgPreview').style.background = config.colori?.sfondo || '#1a1a2e';
-            
-            document.getElementById('colorTitle').value = config.colori?.titolo || '#FFD93D';
-            document.getElementById('colorTitleText').value = config.colori?.titolo || '#FFD93D';
-            document.getElementById('colorTitlePreview').style.background = config.colori?.titolo || '#FFD93D';
-            
-            // Pulsante
-            document.getElementById('buttonText').value = config.pulsante_principale?.testo || '';
-            document.getElementById('buttonClickText').value = config.pulsante_principale?.testo_click || '';
-            
-            // Links
-            const linksContainer = document.getElementById('linksContainer');
-            linksContainer.innerHTML = '';
-            if (config.links && config.links.length > 0) {
-                config.links.forEach(link => addLink(link));
-            } else {
-                addLink();
-            }
-            
-            // Contenuti
-            const contentsContainer = document.getElementById('contentsContainer');
-            contentsContainer.innerHTML = '';
-            if (config.contenuti && config.contenuti.length > 0) {
-                config.contenuti.forEach(content => addContent(content));
-            } else {
-                addContent();
-            }
-        }
-        
-        // RESET A DEFAULT
-        function resetToDefault() {
-            if (confirm('Vuoi resettare alla configurazione di default?')) {
-                currentConfig = {
-                    "app": {
-                        "titolo": "🦁 LION APP MAURI",
-                        "sottotitolo": "Benvenuto nella Lion App!",
-                        "footer": "Creato con ❤️ e Python"
-                    },
-                    "colori": {
-                        "sfondo": "#1a1a2e",
-                        "titolo": "#FFD93D",
-                        "testo": "#FFFFFF",
-                        "pulsante": "#FF8C00"
-                    },
-                    "pulsante_principale": {
-                        "testo": "RUGGISCI! 🔊",
-                        "testo_click": "🦁 ROAR! 🦁"
-                    },
-                    "links": [
-                        {
-                            "nome": "PANNELLO ADMIN",
-                            "url": "https://mauri63.github.io/Mauri/admin.html",
-                            "icona": "⚙️"
+                // A. Prima ottieni info sul file esistente
+                const getResponse = await fetch(
+                    'https://api.github.com/repos/mauri63/Mauri/contents/config.json',
+                    {
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json'
                         }
-                    ],
-                    "contenuti": [
-                        {
-                            "titolo": "🎉 BENVENUTO!",
-                            "descrizione": "Questa è la Lion App! Modifica i contenuti dal pannello admin e premi 🔄 per aggiornare."
-                        }
-                    ]
+                    }
+                );
+                
+                let sha = null;
+                if (getResponse.ok) {
+                    const fileInfo = await getResponse.json();
+                    sha = fileInfo.sha;
+                }
+                
+                // B. Prepara i dati per l'update
+                const content = JSON.stringify(config, null, 2);
+                const contentBase64 = btoa(unescape(encodeURIComponent(content)));
+                
+                const updateData = {
+                    message: `🦁 Aggiornamento config Lion App - ${new Date().toLocaleString()}`,
+                    content: contentBase64,
+                    branch: 'main'
                 };
                 
-                populateForm(currentConfig);
-                updatePreview();
+                if (sha) {
+                    updateData.sha = sha;
+                }
                 
-                const status = document.getElementById('configStatus');
-                status.textContent = 'Resettato a default ✓';
-                status.className = 'status status-success';
+                // C. Invia l'update
+                const putResponse = await fetch(
+                    'https://api.github.com/repos/mauri63/Mauri/contents/config.json',
+                    {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updateData)
+                    }
+                );
+                
+                if (putResponse.ok) {
+                    status.textContent = '✅ Salvato su GitHub!';
+                    status.className = 'status status-success';
+                    
+                    // Notifica
+                    alert(`🎉 Configurazione salvata con successo su GitHub!\n\nL'aggiornamento apparirà nell'app tra pochi secondi.`);
+                    
+                    // Aggiorna preview
+                    updatePreview();
+                    
+                } else {
+                    const error = await putResponse.json();
+                    throw new Error(error.message || 'Errore GitHub API');
+                }
+                
+            } catch (error) {
+                console.error('Errore salvataggio:', error);
+                status.textContent = '❌ Errore: ' + error.message;
+                status.className = 'status status-error';
+                
+                alert(`❌ Errore nel salvataggio automatico:\n\n${error.message}\n\nUsa il metodo manuale (Copia/Incolla).`);
             }
         }
         
-        // SALVA SU GITHUB
-        async function saveConfig() {
-            const status = document.getElementById('configStatus');
-            status.textContent = 'Salvataggio...';
-            status.className = 'status';
+        // 3. FUNZIONE PER COPIA MANUALE (backup)
+        function showJsonForManual() {
+            const config = currentConfig;
+            const jsonStr = JSON.stringify(config, null, 2);
             
-            // NOTA: Per salvare su GitHub, hai bisogno di:
-            // 1. GitHub Pages con permessi di scrittura
-            // 2. Un backend o GitHub Actions
-            // 3. Oppure salva localmente e chiedi di fare commit manuale
+            // Crea un textarea per copiare facilmente
+            const textarea = document.createElement('textarea');
+            textarea.value = jsonStr;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
             
-            // Per ora mostriamo solo il JSON da copiare
-            const jsonStr = JSON.stringify(currentConfig, null, 2);
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert('✅ JSON copiato negli appunti!\n\nOra:\n1. Vai su https://github.com/mauri63/Mauri\n2. Clicca config.json → Edit\n3. Incolla (Ctrl+V) → Commit');
+                } else {
+                    alert('❌ Impossibile copiare. Ecco il JSON:\n\n' + jsonStr);
+                }
+            } catch (err) {
+                alert('JSON da copiare:\n\n' + jsonStr);
+            }
             
-            // Mostra messaggio con istruzioni
-            alert(`📋 COPIA LA CONFIGURAZIONE:\n\n${jsonStr}\n\n🔧 Per salvare su GitHub:\n1. Vai su https://github.com/mauri63/Mauri\n2. Clicca su config.json\n3. Clicca "Edit"\n4. Incolla questo JSON\n5. Clicca "Commit changes"`);
-            
-            status.textContent = 'Pronto per copia ✓';
-            status.className = 'status status-success';
+            document.body.removeChild(textarea);
         }
         
-        // AGGIORNA ANTEPREMI
-        function updatePreview() {
-            document.getElementById('jsonPreview').textContent = 
-                JSON.stringify(currentConfig, null, 2);
-        }
+        // 4. INIZIALIZZAZIONE
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carica token se esiste
+            const savedToken = getToken();
+            if (savedToken) {
+                document.getElementById('githubToken').value = '••••••••••••••••••';
+            }
+            
+            // Inizializza il resto
+            initPage();
+        });
         
-        // INIZIALIZZA AL CARICAMENTO
-        document.addEventListener('DOMContentLoaded', initPage);
+        // [MANTIENI TUTTE LE ALTRE FUNZIONI DEL PANNELO PRECEDENTE]
+        // initPage(), setupColorPickers(), addLink(), addContent(), etc...
+        // ... tutto il resto del codice JavaScript ...
+        
     </script>
 </body>
 </html>
