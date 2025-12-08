@@ -2,7 +2,7 @@
   "app": {
     "titolo": "🦁 LION APP MAURI",
     "sottotitolo": "Benvenuto nella Lion App!",
-    "footer": "Creato con ❤️ e Python"
+    "footer": "Creato con ❤️ da Mauri"
   },
   "colori": {
     "sfondo": "#1a1a2e",
@@ -27,27 +27,22 @@
     },
     {
       "nome": "CONTATTO",
-      "url": "mailto:tuamail@example.com",
+      "url": "mailto:mauri@example.com",
       "icona": "✉️"
-    },
-    {
-      "nome": "AGGIORNA APP",
-      "url": "",
-      "icona": "🔄"
     }
   ],
   "contenuti": [
     {
       "titolo": "🎉 BENVENUTO!",
-      "descrizione": "Questa è la Lion App! Modifica i contenuti dal pannello admin e premi 🔄 per aggiornare."
+      "descrizione": "Questa è la Lion App!\\nModifica i contenuti dal pannello admin."
     },
     {
-      "titolo": "⚡ FUNZIONI PRINCIPALI",
-      "descrizione": "• Configurazione remota\n• Aggiornamenti in tempo reale\n• Interfaccia personalizzabile\n• Pulsante con vibrazione"
+      "titolo": "⚡ COME MODIFICARE",
+      "descrizione": "1. Vai al pannello admin\\n2. Modifica la configurazione\\n3. Salva su GitHub\\n4. Premi 🔄 nell'app"
     },
     {
-      "titolo": "📱 COME USARE",
-      "descrizione": "1. Modifica i contenuti nel pannello\n2. Premi SALVA\n3. Apri l'app e premi 🔄\n4. I contenuti si aggiornano!"
+      "titolo": "📱 FUNZIONI",
+      "descrizione": "• Configurazione remota\\n• Aggiornamenti in tempo reale\\n• Pulsante con vibrazione\\n• Interfaccia personalizzabile"
     }
   ]
 }
