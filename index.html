@@ -25,7 +25,7 @@
         h1 { color: #FFD93D; text-align: center; margin-bottom: 30px; }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; color: #a6a6a6; }
-        input[type="text"], textarea {
+        input[type="text"], textarea, select {
             width: 100%;
             padding: 12px;
             background-color: #0f3460;
@@ -48,61 +48,32 @@
             margin-right: 15px;
             accent-color: #FFD93D;
         }
-        .btn-container {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
+        .btn-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
         button {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.1s;
-            font-size: 16px;
+            flex: 1; padding: 15px; border: none; border-radius: 8px;
+            font-weight: bold; cursor: pointer; font-size: 16px;
         }
-        button:active { transform: scale(0.98); }
-        .btn-github {
-            background-color: #2ea043;
-            color: white;
-        }
-        .btn-refresh {
-            background-color: #1f6feb;
-            color: white;
-        }
-        .btn-cache {
-            background-color: #d0312d; /* Rosso per l'azione di pulizia */
-            color: white;
-        }
+        .btn-github { background-color: #2ea043; color: white; }
+        .btn-refresh { background-color: #1f6feb; color: white; }
+        .btn-cache { background-color: #d0312d; color: white; }
         .json-preview {
-            background-color: #000;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 12px;
-            color: #0f0;
-            margin-top: 20px;
-            white-space: pre-wrap;
-            word-break: break-all;
+            background-color: #000; padding: 15px; border-radius: 8px;
+            font-family: monospace; font-size: 12px; color: #0f0;
+            margin-top: 20px; white-space: pre-wrap; word-break: break-all;
         }
-        .status {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #FFD93D;
-            min-height: 20px;
-        }
+        .status { text-align: center; margin-bottom: 15px; color: #FFD93D; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🦁 Admin Panel</h1>
-    
+    <h1>🦁 Admin Panel v2</h1>
     <div id="status" class="status">In attesa...</div>
+
+    <div class="form-group">
+        <label>URL Immagine Logo (Lascia vuoto per logo default)</label>
+        <input type="text" id="logo_url" placeholder="https://..." oninput="updateJSON()">
+    </div>
 
     <div class="form-group">
         <label>Titolo App</label>
@@ -119,129 +90,88 @@
         <input type="text" id="button_text" oninput="updateJSON()">
     </div>
 
-    <div class="checkbox-group form-group">
-        <input type="checkbox" id="enable_website" onchange="updateJSON()">
-        <label style="margin:0; color: white;">Abilita Apertura Sito Web</label>
+    <div class="form-group">
+        <label>Azione Pulsante</label>
+        <select id="action_type" onchange="updateJSON()">
+            <option value="roar">Fai Ruggito (Animazione)</option>
+            <option value="link">Apri Sito Web</option>
+        </select>
     </div>
 
     <div class="form-group">
-        <label>URL Sito Web (se abilitato)</label>
-        <input type="text" id="website_url" oninput="updateJSON()">
+        <label>Link Sito (se selezionato sopra)</label>
+        <input type="text" id="action_url" oninput="updateJSON()">
     </div>
 
-    <h3>Anteprima JSON (Da copiare su GitHub)</h3>
     <div class="json-preview" id="json_output"></div>
 
     <div class="btn-container">
-        <!-- Pulsante 1: Copia -->
         <button class="btn-refresh" onclick="copyToClipboard()">📋 Copia JSON</button>
-        
-        <!-- Pulsante 2: Vai a GitHub -->
-        <button class="btn-github" onclick="goToGitHub()">✏️ Vai a Modificare</button>
+        <button class="btn-github" onclick="goToGitHub()">✏️ Vai a GitHub</button>
     </div>
-
     <div class="btn-container">
-        <!-- Pulsante 3: NUOVO PULSANTE CACHE -->
         <button class="btn-refresh" onclick="loadAppData()">🔄 Ricarica Dati</button>
         <button class="btn-cache" onclick="clearCacheAndReload()">🗑️ Pulisci Cache</button>
     </div>
 </div>
 
 <script>
-    // Configurazione
-    const GITHUB_EDIT_URL = "https://github.com/mauri63/Mauri/blob/main/config.json";
-    // URL RAW per leggere i dati
     const RAW_JSON_URL = "https://raw.githubusercontent.com/mauri63/Mauri/main/config.json";
+    const GITHUB_EDIT_URL = "https://github.com/mauri63/Mauri/blob/main/config.json";
 
-    // Funzione principale di caricamento (MODIFICATA CON IL TUO CODICE)
     async function loadAppData() {
-        showStatus('Caricamento dati da GitHub...');
-        
+        showStatus('Caricamento dati...');
         try {
-            // 1. Creiamo parametri anti-cache
             const timestamp = new Date().getTime();
-            const random = Math.random().toString(36).substring(7);
-            
-            // Aggiungiamo i parametri all'URL
-            const configUrl = `${RAW_JSON_URL}?t=${timestamp}&r=${random}`;
-            
-            console.log('Fetching senza cache:', configUrl);
-            
-            // 2. Fetch con headers per forzare il download fresco
-            const response = await fetch(configUrl, {
-                headers: {
-                    'Cache-Control': 'no-cache, no-store, must-revalidate',
-                    'Pragma': 'no-cache',
-                    'Expires': '0'
-                },
-                cache: 'no-store'
-            });
-            
+            const response = await fetch(`${RAW_JSON_URL}?t=${timestamp}`, { cache: 'no-store' });
             if (!response.ok) throw new Error("Errore download");
-
             const data = await response.json();
             
             // Popola i campi
             document.getElementById('app_title').value = data.app_title || '';
             document.getElementById('subtitle').value = data.subtitle || '';
-            document.getElementById('button_text').value = data.button_text || '';
-            document.getElementById('website_url').value = data.website_url || '';
-            document.getElementById('enable_website').checked = data.enable_website || false;
+            document.getElementById('button_text').value = data.btn_text || ''; // Nota: btn_text nel nuovo main.py
+            document.getElementById('logo_url').value = data.logo_url || '';
+            document.getElementById('action_type').value = data.action_type || 'roar';
+            document.getElementById('action_url').value = data.action_url || '';
 
-            updateJSON(); // Aggiorna l'anteprima
-            showStatus('Dati caricati correttamente! ✅');
-
+            updateJSON();
+            showStatus('Dati caricati! ✅');
         } catch (error) {
             console.error(error);
-            showStatus('Errore nel caricamento dati ❌');
+            showStatus('Errore caricamento ❌');
         }
     }
 
-    // Genera l'anteprima del JSON in tempo reale
     function updateJSON() {
         const data = {
             app_title: document.getElementById('app_title').value,
+            title_color: "#FFD93D",
+            title_size: "36sp",
             subtitle: document.getElementById('subtitle').value,
-            button_text: document.getElementById('button_text').value,
-            background_color: "#1a1a2e",
-            lion_color: "#FFD93D",
-            enable_website: document.getElementById('enable_website').checked,
-            website_url: document.getElementById('website_url').value
+            subtitle_color: "#FFFFFF",
+            show_subtitle: true,
+            logo_url: document.getElementById('logo_url').value, // <--- NUOVO CAMPO
+            bg_color: "#1a1a2e",
+            btn_text: document.getElementById('button_text').value,
+            btn_bg_color: "#FF8C00",
+            btn_text_color: "#FFFFFF",
+            action_type: document.getElementById('action_type').value,
+            action_url: document.getElementById('action_url').value,
+            footer_text: "Admin Panel Update",
+            show_footer: true
         };
-        
         document.getElementById('json_output').innerText = JSON.stringify(data, null, 4);
     }
 
-    // Copia il JSON negli appunti
     function copyToClipboard() {
-        const text = document.getElementById('json_output').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            showStatus('JSON Copiato! Ora incollalo su GitHub 📋');
-        });
+        navigator.clipboard.writeText(document.getElementById('json_output').innerText)
+            .then(() => showStatus('JSON Copiato! 📋'));
     }
-
-    // Apre GitHub
-    function goToGitHub() {
-        window.open(GITHUB_EDIT_URL, '_blank');
-    }
-
-    // Funzione per mostrare messaggi
-    function showStatus(msg) {
-        document.getElementById('status').innerText = msg;
-    }
-
-    // NUOVA FUNZIONE: Pulisci Cache
-    function clearCacheAndReload() {
-        if (confirm("Vuoi pulire la cache e ricaricare i dati?")) {
-            // Aggiunge un parametro random all'URL della pagina stessa per ricaricarla da zero
-            window.location.href = window.location.href.split('?')[0] + '?t=' + new Date().getTime();
-        }
-    }
-
-    // Avvia al caricamento della pagina
+    function goToGitHub() { window.open(GITHUB_EDIT_URL, '_blank'); }
+    function showStatus(msg) { document.getElementById('status').innerText = msg; }
+    function clearCacheAndReload() { window.location.reload(true); }
     window.onload = loadAppData;
-
 </script>
-
 </body>
 </html>
