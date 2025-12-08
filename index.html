@@ -116,33 +116,51 @@
 </div>
 
 <script>
+
+    // Configurazione URL
     const RAW_JSON_URL = "https://raw.githubusercontent.com/mauri63/Mauri/main/config.json";
     const GITHUB_EDIT_URL = "https://github.com/mauri63/Mauri/blob/main/config.json";
 
+    // Funzione per caricare i dati (MODIFICATA PER EVITARE LA CACHE)
     async function loadAppData() {
-        showStatus('Caricamento dati...');
+        showStatus('Caricamento dati freschi...');
+        
         try {
+            // TRUCCO ANTI-CACHE: Aggiungiamo l'orario attuale all'URL
+            // Esempio: config.json?t=123456789
             const timestamp = new Date().getTime();
-            const response = await fetch(`${RAW_JSON_URL}?t=${timestamp}`, { cache: 'no-store' });
+            
+            // Facciamo la richiesta dicendo al browser "no-store" (non salvare in memoria)
+            const response = await fetch(`${RAW_JSON_URL}?t=${timestamp}`, {
+                cache: "no-store", 
+                headers: { 'Cache-Control': 'no-cache' }
+            });
+            
             if (!response.ok) throw new Error("Errore download");
+            
             const data = await response.json();
             
-            // Popola i campi
+            // Riempie le caselle con i dati NUOVI appena scaricati
             document.getElementById('app_title').value = data.app_title || '';
             document.getElementById('subtitle').value = data.subtitle || '';
-            document.getElementById('button_text').value = data.btn_text || ''; // Nota: btn_text nel nuovo main.py
+            
+            // Gestione del vecchio nome vs nuovo nome (btn_text)
+            document.getElementById('button_text').value = data.btn_text || data.button_text || ''; 
+            
             document.getElementById('logo_url').value = data.logo_url || '';
             document.getElementById('action_type').value = data.action_type || 'roar';
             document.getElementById('action_url').value = data.action_url || '';
 
-            updateJSON();
-            showStatus('Dati caricati! ✅');
+            updateJSON(); // Aggiorna l'anteprima nera
+            showStatus('Dati Aggiornati da GitHub! ✅');
+
         } catch (error) {
             console.error(error);
-            showStatus('Errore caricamento ❌');
+            showStatus('Impossibile scaricare dati freschi ❌');
         }
     }
 
+    // Genera il JSON in tempo reale
     function updateJSON() {
         const data = {
             app_title: document.getElementById('app_title').value,
@@ -151,7 +169,7 @@
             subtitle: document.getElementById('subtitle').value,
             subtitle_color: "#FFFFFF",
             show_subtitle: true,
-            logo_url: document.getElementById('logo_url').value, // <--- NUOVO CAMPO
+            logo_url: document.getElementById('logo_url').value,
             bg_color: "#1a1a2e",
             btn_text: document.getElementById('button_text').value,
             btn_bg_color: "#FF8C00",
@@ -161,16 +179,30 @@
             footer_text: "Admin Panel Update",
             show_footer: true
         };
+        // Formatta il JSON bello ordinato
         document.getElementById('json_output').innerText = JSON.stringify(data, null, 4);
     }
 
+    // Funzioni dei pulsanti
     function copyToClipboard() {
         navigator.clipboard.writeText(document.getElementById('json_output').innerText)
-            .then(() => showStatus('JSON Copiato! 📋'));
+            .then(() => showStatus('Copiato! Incolla su GitHub 📋'));
     }
-    function goToGitHub() { window.open(GITHUB_EDIT_URL, '_blank'); }
-    function showStatus(msg) { document.getElementById('status').innerText = msg; }
-    function clearCacheAndReload() { window.location.reload(true); }
+    
+    function goToGitHub() { 
+        window.open(GITHUB_EDIT_URL, '_blank'); 
+    }
+    
+    function showStatus(msg) { 
+        document.getElementById('status').innerText = msg; 
+    }
+    
+    // NUOVO: Pulisce la cache della pagina Admin stessa
+    function clearCacheAndReload() { 
+        window.location.reload(true); 
+    }
+
+    // Avvia tutto appena apri la pagina
     window.onload = loadAppData;
 </script>
 </body>
