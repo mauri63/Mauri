@@ -3,244 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦁 Admin Lion App - SALVA AUTOMATICO</title>
+    <title>🦁 Admin Lion App</title>
     <style>
-        /* (MANTIENI TUTTO LO STILE PRECEDENTE) */
-        /* ... stesso CSS dell'admin organizzato ... */
-        
-        /* Aggiungi solo questo: */
-        .github-token {
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid #0366d6;
-        }
-        
-        .github-token input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-        }
-        
-        .github-token small {
-            color: #666;
-            display: block;
-            margin-top: 5px;
-        }
-        
-        .btn-save-auto {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-        }
+        * { box-sizing: border-box; font-family: -apple-system, sans-serif; }
+        body { background: #f5f5f5; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #FF8C00, #FFD93D); color: white; padding: 30px; border-radius: 20px; margin-bottom: 30px; text-align: center; }
+        .section { background: white; padding: 25px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-left: 5px solid #FF8C00; }
+        h1 { margin: 0; font-size: 2.5em; }
+        h2 { color: #FF8C00; margin-top: 0; }
+        textarea { width: 100%; height: 400px; padding: 20px; font-family: monospace; font-size: 14px; border: 3px solid #ddd; border-radius: 10px; }
+        button { background: #FF8C00; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 10px; cursor: pointer; font-weight: bold; margin: 10px 5px; }
+        button:hover { background: #FF6B00; transform: translateY(-2px); }
+        .btn-copy { background: #4CAF50; }
+        .btn-open { background: #2196F3; }
+        .instructions { background: #e8f4fc; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #2196F3; }
+        .instructions ol { margin: 10px 0; padding-left: 20px; }
+        .instructions li { margin: 8px 0; }
+        .color-preview { display: inline-block; width: 20px; height: 20px; border-radius: 4px; margin: 0 5px; vertical-align: middle; border: 1px solid #ccc; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🦁 Admin Lion App - SALVA DIRETTO SU GITHUB</h1>
-        <p>Modifica e salva automaticamente su GitHub!</p>
-    </div>
-    
-    <!-- SEZIONE TOKEN GITHUB (DA FARE UNA VOLTA) -->
-    <div class="github-token">
-        <h3>🔐 Configurazione GitHub (solo una volta)</h3>
-        <p>Per salvare automaticamente, crea un token GitHub:</p>
-        <ol>
-            <li>Vai a: <a href="https://github.com/settings/tokens" target="_blank">GitHub Tokens</a></li>
-            <li>Clicca "Generate new token" → "Generate new token (classic)"</li>
-            <li>Nome: <code>Lion-App-Token</code></li>
-            <li>Seleziona: <strong>repo</strong> (tutto sotto repo)</li>
-            <li>Clicca "Generate token"</li>
-            <li><strong>COPIA IL TOKEN</strong> (lo vedi solo una volta!)</li>
-        </ol>
-        
-        <label>Incolla il tuo token qui (salva nel browser):</label>
-        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-        <button onclick="saveToken()">💾 Salva Token Localmente</button>
-        <small>Il token viene salvato SOLO nel tuo browser, non su server.</small>
-    </div>
-    
-    <!-- RESTANTE FORM (UGUALE A PRIMA) -->
-    <!-- ... tutte le sezioni della config ... -->
-    
-    <!-- PULSANTI AGGIORNATI -->
-    <div class="action-buttons">
-        <button class="btn btn-reset" onclick="resetToDefault()">
-            🔄 Reset
-        </button>
-        
-        <button class="btn btn-secondary" onclick="loadFromGitHub()">
-            📥 Carica Config
-        </button>
-        
-        <button class="btn btn-save-auto" onclick="saveToGitHubAuto()">
-            🚀 Salva Automatico su GitHub
-        </button>
-        
-        <button class="btn btn-primary" onclick="showJsonForManual()">
-            📋 Copia per Salvataggio Manuale
-        </button>
-    </div>
-    
-    <!-- STATUS AGGIORNATO -->
-    <div class="preview-section">
-        <div class="status-bar">
-            <span>Stato:</span>
-            <span class="status" id="configStatus">Pronto</span>
+    <div class="container">
+        <div class="header">
+            <h1>🦁 Admin Lion App</h1>
+            <p>Modifica la configurazione dell'applicazione</p>
         </div>
-        <pre id="jsonPreview">{}</pre>
+        
+        <div class="section">
+            <h2>📋 Modifica Rapida Configurazione</h2>
+            <p>Modifica i valori qui sotto, poi copia e incolla su GitHub:</p>
+            
+            <div style="margin: 20px 0;">
+                <label><strong>Titolo App:</strong></label>
+                <input type="text" id="appTitle" value="🦁 LION APP MAURI" style="width: 100%; padding: 10px; margin: 5px 0 20px 0; border: 2px solid #ddd; border-radius: 5px;">
+                
+                <label><strong>Sottotitolo:</strong></label>
+                <input type="text" id="appSubtitle" value="Benvenuto nella Lion App!" style="width: 100%; padding: 10px; margin: 5px 0 20px 0; border: 2px solid #ddd; border-radius: 5px;">
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div>
+                        <label><strong>Colore Sfondo:</strong></label>
+                        <input type="color" id="colorBg" value="#1a1a2e" style="width: 100%; height: 40px;">
+                        <span id="colorBgText">#1a1a2e</span>
+                        <div class="color-preview" style="background: #1a1a2e;"></div>
+                    </div>
+                    <div>
+                        <label><strong>Colore Titolo:</strong></label>
+                        <input type="color" id="colorTitle" value="#FFD93D" style="width: 100%; height: 40px;">
+                        <span id="colorTitleText">#FFD93D</span>
+                        <div class="color-preview" style="background: #FFD93D;"></div>
+                    </div>
+                    <div>
+                        <label><strong>Colore Pulsante:</strong></label>
+                        <input type="color" id="colorButton" value="#FF8C00" style="width: 100%; height: 40px;">
+                        <span id="colorButtonText">#FF8C00</span>
+                        <div class="color-preview" style="background: #FF8C00;"></div>
+                    </div>
+                </div>
+                
+                <label><strong>Testo Pulsante:</strong></label>
+                <input type="text" id="buttonText" value="RUGGISCI! 🔊" style="width: 100%; padding: 10px; margin: 5px 0 20px 0; border: 2px solid #ddd; border-radius: 5px;">
+                
+                <label><strong>Testo al Click:</strong></label>
+                <input type="text" id="buttonClickText" value="🦁 ROAR! 🦁" style="width: 100%; padding: 10px; margin: 5px 0 20px 0; border: 2px solid #ddd; border-radius: 5px;">
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📄 Configurazione JSON Completa</h2>
+            <p>Modifica direttamente il JSON qui sotto (oppure usa i campi sopra):</p>
+            <textarea id="configJson">{
+  "app": {
+    "titolo": "🦁 LION APP MAURI",
+    "sottotitolo": "Benvenuto nella Lion App!",
+    "footer": "Creato con ❤️ da Mauri"
+  },
+  "colori": {
+    "sfondo": "#1a1a2e",
+    "titolo": "#FFD93D",
+    "testo": "#FFFFFF",
+    "pulsante": "#FF8C00"
+  },
+  "pulsante_principale": {
+    "testo": "RUGGISCI! 🔊",
+    "testo_click": "🦁 ROAR! 🦁"
+  },
+  "links": [
+    {
+      "nome": "PANNELLO ADMIN",
+      "url": "https://mauri63.github.io/Mauri/admin.html",
+      "icona": "⚙️"
+    },
+    {
+      "nome": "GITHUB",
+      "url": "https://github.com/mauri63",
+      "icona": "🐙"
+    },
+    {
+      "nome": "CONTATTO",
+      "url": "mailto:mauri@example.com",
+      "icona": "✉️"
+    }
+  ],
+  "contenuti": [
+    {
+      "titolo": "🎉 BENVENUTO!",
+      "descrizione": "Questa è la Lion App!\\nModifica i contenuti dal pannello admin."
+    },
+    {
+      "titolo": "⚡ COME MODIFICARE",
+      "descrizione": "1. Vai al pannello admin\\n2. Modifica la configurazione\\n3. Salva su GitHub\\n4. Premi 🔄 nell'app"
+    }
+  ]
+}</textarea>
+        </div>
+        
+        <div class="instructions">
+            <h2>📝 Istruzioni Passo-Passo</h2>
+            <ol>
+                <li><strong>Modifica</strong> i campi sopra o il JSON direttamente</li>
+                <li><strong>Clicca "📋 COPIA JSON"</strong> (il testo viene copiato)</li>
+                <li><strong>Clicca "✏️ APRI GITHUB"</strong> (si apre GitHub in una nuova finestra)</li>
+                <li>Su GitHub: <strong>cancella tutto il testo esistente</strong></li>
+                <li><strong>Incolla</strong> (Ctrl+V) il nuovo JSON</li>
+                <li>Scorri in fondo e clicca <strong>"Commit changes"</strong></li>
+                <li>Apri l'app Lion sul telefono e clicca il pulsante <strong>🔄</strong></li>
+            </ol>
+        </div>
+        
+        <div style="text-align: center; margin: 40px 0;">
+            <button class="btn-copy" onclick="copyJson()">📋 COPIA JSON</button>
+            <button class="btn-open" onclick="openGitHub()">✏️ APRI GITHUB</button>
+            <button onclick="updateFromFields()">🔄 AGGIORNA JSON DAI CAMPI</button>
+            <button onclick="loadFromGitHub()">📥 CARICA DA GITHUB</button>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 Link Utili</h2>
+            <p>
+                <a href="https://mauri63.github.io/Mauri/admin.html" target="_blank">🔗 Questo pannello admin</a><br>
+                <a href="https://github.com/mauri63/Mauri/edit/main/config.json" target="_blank">🔗 Modifica config.json su GitHub</a><br>
+                <a href="https://raw.githubusercontent.com/mauri63/Mauri/main/config.json" target="_blank">🔗 Visualizza config.json raw</a>
+            </p>
+        </div>
     </div>
 
     <script>
-        // 1. GESTIONE TOKEN (salvato localmente)
-        const TOKEN_KEY = 'github_token_lionapp';
-        
-        function saveToken() {
-            const token = document.getElementById('githubToken').value;
-            if (token && token.startsWith('ghp_')) {
-                localStorage.setItem(TOKEN_KEY, token);
-                alert('✅ Token salvato nel browser!');
-            } else {
-                alert('❌ Token non valido. Deve iniziare con ghp_');
-            }
-        }
-        
-        function getToken() {
-            return localStorage.getItem(TOKEN_KEY);
-        }
-        
-        // 2. FUNZIONE SALVATAGGIO AUTOMATICO
-        async function saveToGitHubAuto() {
-            const status = document.getElementById('configStatus');
-            const token = getToken();
-            
-            if (!token) {
-                status.textContent = '❌ Token non configurato';
-                status.className = 'status status-error';
-                alert('Prima configura il token GitHub! Leggi le istruzioni sopra.');
-                return;
-            }
-            
-            status.textContent = '🔄 Invio a GitHub...';
-            status.className = 'status';
-            
-            const config = currentConfig; // La tua configurazione corrente
-            
+        // Inizializza i campi dal JSON
+        function initFields() {
             try {
-                // A. Prima ottieni info sul file esistente
-                const getResponse = await fetch(
-                    'https://api.github.com/repos/mauri63/Mauri/contents/config.json',
-                    {
-                        headers: {
-                            'Authorization': `token ${token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    }
-                );
+                const json = JSON.parse(document.getElementById('configJson').value);
+                document.getElementById('appTitle').value = json.app?.titolo || '';
+                document.getElementById('appSubtitle').value = json.app?.sottotitolo || '';
+                document.getElementById('colorBg').value = json.colori?.sfondo || '#1a1a2e';
+                document.getElementById('colorTitle').value = json.colori?.titolo || '#FFD93D';
+                document.getElementById('colorButton').value = json.colori?.pulsante || '#FF8C00';
+                document.getElementById('buttonText').value = json.pulsante_principale?.testo || '';
+                document.getElementById('buttonClickText').value = json.pulsante_principale?.testo_click || '';
                 
-                let sha = null;
-                if (getResponse.ok) {
-                    const fileInfo = await getResponse.json();
-                    sha = fileInfo.sha;
-                }
-                
-                // B. Prepara i dati per l'update
-                const content = JSON.stringify(config, null, 2);
-                const contentBase64 = btoa(unescape(encodeURIComponent(content)));
-                
-                const updateData = {
-                    message: `🦁 Aggiornamento config Lion App - ${new Date().toLocaleString()}`,
-                    content: contentBase64,
-                    branch: 'main'
-                };
-                
-                if (sha) {
-                    updateData.sha = sha;
-                }
-                
-                // C. Invia l'update
-                const putResponse = await fetch(
-                    'https://api.github.com/repos/mauri63/Mauri/contents/config.json',
-                    {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `token ${token}`,
-                            'Accept': 'application/vnd.github.v3+json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(updateData)
-                    }
-                );
-                
-                if (putResponse.ok) {
-                    status.textContent = '✅ Salvato su GitHub!';
-                    status.className = 'status status-success';
-                    
-                    // Notifica
-                    alert(`🎉 Configurazione salvata con successo su GitHub!\n\nL'aggiornamento apparirà nell'app tra pochi secondi.`);
-                    
-                    // Aggiorna preview
-                    updatePreview();
-                    
-                } else {
-                    const error = await putResponse.json();
-                    throw new Error(error.message || 'Errore GitHub API');
-                }
-                
-            } catch (error) {
-                console.error('Errore salvataggio:', error);
-                status.textContent = '❌ Errore: ' + error.message;
-                status.className = 'status status-error';
-                
-                alert(`❌ Errore nel salvataggio automatico:\n\n${error.message}\n\nUsa il metodo manuale (Copia/Incolla).`);
+                // Aggiorna testi colore
+                updateColorTexts();
+            } catch(e) {
+                console.error('Errore parsing JSON:', e);
             }
         }
         
-        // 3. FUNZIONE PER COPIA MANUALE (backup)
-        function showJsonForManual() {
-            const config = currentConfig;
-            const jsonStr = JSON.stringify(config, null, 2);
-            
-            // Crea un textarea per copiare facilmente
-            const textarea = document.createElement('textarea');
-            textarea.value = jsonStr;
-            textarea.style.position = 'fixed';
-            textarea.style.left = '-9999px';
-            document.body.appendChild(textarea);
+        function updateColorTexts() {
+            document.getElementById('colorBgText').textContent = document.getElementById('colorBg').value;
+            document.getElementById('colorTitleText').textContent = document.getElementById('colorTitle').value;
+            document.getElementById('colorButtonText').textContent = document.getElementById('colorButton').value;
+        }
+        
+        // Aggiorna JSON dai campi
+        function updateFromFields() {
+            try {
+                const json = JSON.parse(document.getElementById('configJson').value);
+                
+                // Aggiorna valori
+                json.app.titolo = document.getElementById('appTitle').value;
+                json.app.sottotitolo = document.getElementById('appSubtitle').value;
+                json.colori.sfondo = document.getElementById('colorBg').value;
+                json.colori.titolo = document.getElementById('colorTitle').value;
+                json.colori.pulsante = document.getElementById('colorButton').value;
+                json.pulsante_principale.testo = document.getElementById('buttonText').value;
+                json.pulsante_principale.testo_click = document.getElementById('buttonClickText').value;
+                
+                // Aggiorna textarea
+                document.getElementById('configJson').value = JSON.stringify(json, null, 2);
+                
+                alert('✅ JSON aggiornato dai campi!');
+                updateColorTexts();
+            } catch(e) {
+                alert('❌ Errore: ' + e.message);
+            }
+        }
+        
+        // Carica da GitHub
+        async function loadFromGitHub() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/mauri63/Mauri/main/config.json?t=' + Date.now());
+                if (response.ok) {
+                    const json = await response.json();
+                    document.getElementById('configJson').value = JSON.stringify(json, null, 2);
+                    initFields();
+                    alert('✅ Configurazione caricata da GitHub!');
+                } else {
+                    alert('❌ Impossibile caricare da GitHub');
+                }
+            } catch(e) {
+                alert('❌ Errore di connessione');
+            }
+        }
+        
+        // Copia JSON negli appunti
+        function copyJson() {
+            const textarea = document.getElementById('configJson');
             textarea.select();
+            textarea.setSelectionRange(0, 99999); // Per mobile
             
             try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    alert('✅ JSON copiato negli appunti!\n\nOra:\n1. Vai su https://github.com/mauri63/Mauri\n2. Clicca config.json → Edit\n3. Incolla (Ctrl+V) → Commit');
-                } else {
-                    alert('❌ Impossibile copiare. Ecco il JSON:\n\n' + jsonStr);
-                }
-            } catch (err) {
-                alert('JSON da copiare:\n\n' + jsonStr);
+                navigator.clipboard.writeText(textarea.value).then(() => {
+                    alert('✅ JSON copiato negli appunti!\nOra incollalo su GitHub.');
+                });
+            } catch(e) {
+                // Fallback per browser vecchi
+                document.execCommand('copy');
+                alert('✅ JSON copiato! Ora incollalo su GitHub.');
             }
-            
-            document.body.removeChild(textarea);
         }
         
-        // 4. INIZIALIZZAZIONE
-        document.addEventListener('DOMContentLoaded', function() {
-            // Carica token se esiste
-            const savedToken = getToken();
-            if (savedToken) {
-                document.getElementById('githubToken').value = '••••••••••••••••••';
-            }
-            
-            // Inizializza il resto
-            initPage();
-        });
+        // Apre GitHub in nuova finestra
+        function openGitHub() {
+            window.open('https://github.com/mauri63/Mauri/edit/main/config.json', '_blank');
+        }
         
-        // [MANTIENI TUTTE LE ALTRE FUNZIONI DEL PANNELO PRECEDENTE]
-        // initPage(), setupColorPickers(), addLink(), addContent(), etc...
-        // ... tutto il resto del codice JavaScript ...
+        // Event listeners per color pickers
+        document.getElementById('colorBg').addEventListener('input', updateColorTexts);
+        document.getElementById('colorTitle').addEventListener('input', updateColorTexts);
+        document.getElementById('colorButton').addEventListener('input', updateColorTexts);
         
+        // Inizializza al caricamento
+        document.addEventListener('DOMContentLoaded', initFields);
     </script>
 </body>
 </html>
