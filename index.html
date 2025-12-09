@@ -5,152 +5,447 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lion App - Admin Panel</title>
     <style>
-        body { font-family: sans-serif; background-color: #1a1a2e; color: #fff; padding: 20px; display: flex; justify-content: center; }
-        .container { background-color: #16213e; padding: 30px; border-radius: 15px; width: 100%; max-width: 600px; }
-        h1 { color: #FFD93D; text-align: center; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: #aaa; }
-        input, select { width: 100%; padding: 12px; background: #0f3460; border: 1px solid #533483; color: white; border-radius: 8px; box-sizing: border-box;}
-        .json-preview { background: #000; padding: 15px; border-radius: 8px; font-family: monospace; color: #0f0; margin-top: 20px; white-space: pre-wrap; word-break: break-all; font-size: 12px; }
-        .btn-container { display: flex; gap: 10px; margin-top: 20px; }
-        button { flex: 1; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .btn-copy { background: #1f6feb; color: white; }
-        .btn-git { background: #2ea043; color: white; }
-        .btn-reload { background: #FFD93D; color: #000; }
-        #status { text-align: center; margin-bottom: 10px; color: #FFD93D; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+
+        header h1 {
+            color: #FFD93D;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 14px;
+        }
+
+        .status.connected {
+            background: rgba(0,255,0,0.2);
+            color: #4ade80;
+        }
+
+        .status.disconnected {
+            background: rgba(255,0,0,0.2);
+            color: #f87171;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #FFD93D;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 14px;
+        }
+
+        input:focus, textarea:focus {
+            outline: 2px solid #FFD93D;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .color-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-input input[type="color"] {
+            width: 50px;
+            height: 40px;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .color-input input[type="text"] {
+            flex: 1;
+        }
+
+        button {
+            background: #FF8C00;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #e07b00;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .btn-danger {
+            background: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .links-list {
+            margin-top: 15px;
+        }
+
+        .link-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .link-item span {
+            flex: 1;
+        }
+
+        .link-item button {
+            padding: 8px 15px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .add-link {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .message.success {
+            background: rgba(0,255,0,0.2);
+            color: #4ade80;
+        }
+
+        .message.error {
+            background: rgba(255,0,0,0.2);
+            color: #f87171;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .add-link {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>🦁 Lion App Admin</h1>
+            <div id="status" class="status disconnected">Connessione...</div>
+        </header>
 
-<div class="container">
-    <h1>🦁 Admin Panel v3</h1>
-    <div id="status">In attesa...</div>
+        <div id="message"></div>
 
-    <div class="form-group">
-        <label>URL Immagine Logo (o lascia vuoto)</label>
-        <input type="text" id="logo_url" oninput="updateJSON()">
+        <!-- Info Base -->
+        <div class="card">
+            <h2>📱 Informazioni App</h2>
+            <div class="form-group">
+                <label>Nome App</label>
+                <input type="text" id="app_name" placeholder="LION APP">
+            </div>
+            <div class="form-group">
+                <label>Sottotitolo</label>
+                <input type="text" id="subtitle" placeholder="La tua app dinamica">
+            </div>
+            <div class="form-group">
+                <label>Descrizione</label>
+                <textarea id="description" placeholder="Descrizione dell'app..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Footer</label>
+                <input type="text" id="footer" placeholder="© 2024">
+            </div>
+        </div>
+
+        <!-- Immagini -->
+        <div class="card">
+            <h2>🖼️ Immagini</h2>
+            <div class="form-group">
+                <label>URL Banner Image</label>
+                <input type="text" id="banner_image" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label>Altezza Banner (px)</label>
+                <input type="number" id="banner_height" placeholder="120" min="50" max="400">
+            </div>
+        </div>
+
+        <!-- Tema -->
+        <div class="card">
+            <h2>🎨 Colori Tema</h2>
+            <div class="form-group">
+                <label>Sfondo</label>
+                <div class="color-input">
+                    <input type="color" id="bg_color_picker" value="#1a1a2e">
+                    <input type="text" id="background" placeholder="#1a1a2e">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Colore Primario</label>
+                <div class="color-input">
+                    <input type="color" id="primary_color_picker" value="#FFD93D">
+                    <input type="text" id="primary_color" placeholder="#FFD93D">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Colore Bottoni</label>
+                <div class="color-input">
+                    <input type="color" id="button_color_picker" value="#FF8C00">
+                    <input type="text" id="button_color" placeholder="#FF8C00">
+                </div>
+            </div>
+        </div>
+
+        <!-- Links -->
+        <div class="card">
+            <h2>🔗 Links</h2>
+            <div id="links-list" class="links-list"></div>
+            <div class="add-link">
+                <input type="text" id="new_link_title" placeholder="Titolo link">
+                <input type="text" id="new_link_url" placeholder="https://...">
+                <button onclick="addLink()">+ Aggiungi</button>
+            </div>
+        </div>
+
+        <!-- Azioni -->
+        <div class="actions">
+            <button onclick="saveConfig()">💾 Salva Tutto</button>
+            <button class="btn-secondary" onclick="loadConfig()">🔄 Ricarica</button>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label>Titolo App</label>
-        <input type="text" id="app_title" oninput="updateJSON()">
-    </div>
+    <script>
+        // 🔥 Firebase URL
+        const FIREBASE_URL = 'https://lion-app-e1d39-default-rtdb.europe-west1.firebasedatabase.app/config.json';
 
-    <div class="form-group">
-        <label>Sottotitolo</label>
-        <input type="text" id="subtitle" oninput="updateJSON()">
-    </div>
+        let currentConfig = {};
+        let links = [];
 
-    <div class="form-group">
-        <label>Testo Pulsante</label>
-        <input type="text" id="button_text" oninput="updateJSON()">
-    </div>
+        // Carica configurazione
+        async function loadConfig() {
+            try {
+                const response = await fetch(FIREBASE_URL);
+                if (!response.ok) throw new Error('Errore connessione');
 
-    <div class="form-group">
-        <label>Azione Pulsante</label>
-        <select id="action_type" onchange="updateJSON()">
-            <option value="roar">Fai Ruggito</option>
-            <option value="link">Apri Sito Web</option>
-        </select>
-    </div>
+                currentConfig = await response.json() || {};
+                links = currentConfig.links || [];
 
-    <div class="form-group">
-        <label>Link Sito (se scelto sopra)</label>
-        <input type="text" id="action_url" oninput="updateJSON()">
-    </div>
+                // Popola i campi
+                document.getElementById('app_name').value = currentConfig.app_name || '';
+                document.getElementById('subtitle').value = currentConfig.subtitle || '';
+                document.getElementById('description').value = currentConfig.description || '';
+                document.getElementById('footer').value = currentConfig.footer || '';
+                document.getElementById('banner_image').value = currentConfig.banner_image || '';
+                document.getElementById('banner_height').value = currentConfig.banner_height || '';
 
-    <div class="json-preview" id="json_output"></div>
+                // Tema
+                const theme = currentConfig.theme || {};
+                document.getElementById('background').value = theme.background || '#1a1a2e';
+                document.getElementById('primary_color').value = theme.primary_color || '#FFD93D';
+                document.getElementById('button_color').value = theme.button_color || '#FF8C00';
 
-    <div class="btn-container">
-        <button class="btn-copy" onclick="copyToClipboard()">📋 Copia JSON</button>
-        <button class="btn-git" onclick="goToGitHub()">✏️ Vai a GitHub</button>
-    </div>
-    <div class="btn-container">
-        <button class="btn-reload" onclick="loadAppData()">🔄 Ricarica Dati Reali</button>
-    </div>
-</div>
+                // Sync color pickers
+                document.getElementById('bg_color_picker').value = theme.background || '#1a1a2e';
+                document.getElementById('primary_color_picker').value = theme.primary_color || '#FFD93D';
+                document.getElementById('button_color_picker').value = theme.button_color || '#FF8C00';
 
-<script>
-    const RAW_JSON_URL = "https://raw.githubusercontent.com/mauri63/Mauri/main/config.json";
-    const GITHUB_EDIT_URL = "https://github.com/mauri63/Mauri/blob/main/config.json";
-
-    // Variabile per conservare i dati originali non modificabili
-    let originalData = {};
-
-    async function loadAppData() {
-        document.getElementById('status').innerText = 'Scaricamento dati freschi...';
-        
-        try {
-            // Trucco anti-cache con timestamp
-            const timestamp = new Date().getTime();
-            const response = await fetch(`${RAW_JSON_URL}?t=${timestamp}`, { cache: "no-store" });
-            
-            if (!response.ok) throw new Error("Errore connessione");
-            
-            const data = await response.json();
-            originalData = data; // Salviamo tutto per non perdere pezzi
-
-            console.log("Dati ricevuti:", data);
-
-            // Riempie i campi gestendo vecchi e nuovi nomi
-            document.getElementById('app_title').value = data.app_title || '';
-            document.getElementById('subtitle').value = data.subtitle || '';
-            
-            // Gestione intelligente: controlla se esiste btn_text O button_text
-            document.getElementById('button_text').value = data.btn_text || data.button_text || '';
-            
-            document.getElementById('logo_url').value = data.logo_url || '';
-            document.getElementById('action_type').value = data.action_type || 'roar';
-            document.getElementById('action_url').value = data.action_url || '';
-
-            updateJSON();
-            document.getElementById('status').innerText = 'Dati caricati da GitHub! ✅';
-
-        } catch (error) {
-            console.error(error);
-            document.getElementById('status').innerText = 'Errore Scaricamento ❌';
+                renderLinks();
+                setStatus(true);
+                showMessage('Configurazione caricata!', 'success');
+            } catch (error) {
+                setStatus(false);
+                showMessage('Errore: ' + error.message, 'error');
+            }
         }
-    }
 
-    function updateJSON() {
-        // Creiamo il nuovo oggetto fondendo i dati originali con le modifiche
-        const newData = {
-            ...originalData, // Mantiene i campi che non tocchiamo (es. colori footer)
-            app_title: document.getElementById('app_title').value,
-            subtitle: document.getElementById('subtitle').value,
-            
-            // Qui uniformiamo tutto al nuovo standard 'btn_text'
-            btn_text: document.getElementById('button_text').value,
-            
-            logo_url: document.getElementById('logo_url').value,
-            action_type: document.getElementById('action_type').value,
-            action_url: document.getElementById('action_url').value,
-            
-            // Assicuriamoci che questi esistano sempre
-            bg_color: originalData.bg_color || "#1a1a2e",
-            title_color: originalData.title_color || "#FFD93D",
-            btn_bg_color: originalData.btn_bg_color || "#FF8C00",
-            btn_text_color: originalData.btn_text_color || "#FFFFFF",
-            show_footer: true,
-            footer_text: originalData.footer_text || "Ver 3.0"
-        };
+        // Salva configurazione
+        async function saveConfig() {
+            const config = {
+                app_name: document.getElementById('app_name').value,
+                subtitle: document.getElementById('subtitle').value,
+                description: document.getElementById('description').value,
+                footer: document.getElementById('footer').value,
+                banner_image: document.getElementById('banner_image').value,
+                banner_height: parseInt(document.getElementById('banner_height').value) || 120,
+                theme: {
+                    background: document.getElementById('background').value,
+                    primary_color: document.getElementById('primary_color').value,
+                    button_color: document.getElementById('button_color').value
+                },
+                links: links
+            };
 
-        // Rimuoviamo la vecchia chiave 'button_text' se esiste, per pulizia
-        delete newData.button_text;
+            try {
+                const response = await fetch(FIREBASE_URL, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
 
-        document.getElementById('json_output').innerText = JSON.stringify(newData, null, 4);
-    }
+                if (!response.ok) throw new Error('Errore salvataggio');
 
-    function copyToClipboard() {
-        navigator.clipboard.writeText(document.getElementById('json_output').innerText)
-            .then(() => alert("JSON Copiato! Ora incollalo su GitHub"));
-    }
+                showMessage('Salvato con successo! Aggiorna l\'app per vedere le modifiche.', 'success');
+            } catch (error) {
+                showMessage('Errore: ' + error.message, 'error');
+            }
+        }
 
-    function goToGitHub() { window.open(GITHUB_EDIT_URL, '_blank'); }
+        // Gestione links
+        function renderLinks() {
+            const container = document.getElementById('links-list');
+            container.innerHTML = links.map((link, index) => `
+                <div class="link-item">
+                    <span><strong>${link.title}</strong> - ${link.url}</span>
+                    <button class="btn-danger" onclick="removeLink(${index})">🗑️</button>
+                </div>
+            `).join('');
+        }
 
-    // Avvio
-    window.onload = loadAppData;
-</script>
+        function addLink() {
+            const title = document.getElementById('new_link_title').value.trim();
+            const url = document.getElementById('new_link_url').value.trim();
 
+            if (!title || !url) {
+                showMessage('Inserisci titolo e URL', 'error');
+                return;
+            }
+
+            links.push({ title, url });
+            document.getElementById('new_link_title').value = '';
+            document.getElementById('new_link_url').value = '';
+            renderLinks();
+        }
+
+        function removeLink(index) {
+            links.splice(index, 1);
+            renderLinks();
+        }
+
+        // Sync color pickers
+        document.getElementById('bg_color_picker').addEventListener('input', (e) => {
+            document.getElementById('background').value = e.target.value;
+        });
+        document.getElementById('primary_color_picker').addEventListener('input', (e) => {
+            document.getElementById('primary_color').value = e.target.value;
+        });
+        document.getElementById('button_color_picker').addEventListener('input', (e) => {
+            document.getElementById('button_color').value = e.target.value;
+        });
+
+        // Sync text to color picker
+        document.getElementById('background').addEventListener('input', (e) => {
+            if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                document.getElementById('bg_color_picker').value = e.target.value;
+            }
+        });
+        document.getElementById('primary_color').addEventListener('input', (e) => {
+            if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                document.getElementById('primary_color_picker').value = e.target.value;
+            }
+        });
+        document.getElementById('button_color').addEventListener('input', (e) => {
+            if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+                document.getElementById('button_color_picker').value = e.target.value;
+            }
+        });
+
+        // UI helpers
+        function setStatus(connected) {
+            const el = document.getElementById('status');
+            el.textContent = connected ? '✓ Connesso a Firebase' : '✗ Disconnesso';
+            el.className = 'status ' + (connected ? 'connected' : 'disconnected');
+        }
+
+        function showMessage(text, type) {
+            const el = document.getElementById('message');
+            el.innerHTML = `<div class="message ${type}">${text}</div>`;
+            setTimeout(() => el.innerHTML = '', 3000);
+        }
+
+        // Carica all'avvio
+        loadConfig();
+    </script>
 </body>
 </html>
