@@ -95,26 +95,25 @@
         if (movieId) {
             const url = `https://vixsrc.to/${type}/${movieId}`;
 
-            // Apri automaticamente dopo 1 secondo
-            let count = 1;
+            // Mostra countdown
+            let count = 2;
             const countdown = document.getElementById('countdown');
+            countdown.textContent = `Reindirizzamento in ${count}...`;
 
             const timer = setInterval(() => {
+                count--;
                 if (count <= 0) {
                     clearInterval(timer);
-                    // Apri in fullscreen popup
-                    const w = screen.width;
-                    const h = screen.height;
-                    window.open(url, '_blank', `width=${w},height=${h},top=0,left=0,fullscreen=yes,menubar=no,toolbar=no,location=no,status=no`);
+                    countdown.textContent = 'Apertura player...';
+                    // Redirect al sito di streaming
+                    window.location.replace(url);
                 } else {
-                    count--;
+                    countdown.textContent = `Reindirizzamento in ${count}...`;
                 }
             }, 1000);
-
-            // Redirect immediato
-            setTimeout(() => {
-                window.location.href = url;
-            }, 1500);
+        } else {
+            document.querySelector('.spinner').style.display = 'none';
+            document.querySelector('p').textContent = 'Errore: ID film mancante';
         }
     </script>
 </body>
