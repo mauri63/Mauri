@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lion Player</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+            background: rgba(255,140,0,0.9);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #FF6B00;
+            transform: scale(1.05);
+        }
+
+        .player-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #FF8C00;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .loading .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,140,0,0.2);
+            border-top-color: #FF8C00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <a href="films.html" class="back-btn">← Torna al Catalogo</a>
+
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Caricamento film...</p>
+    </div>
+
+    <iframe id="player" class="player-frame" style="display:none;" allowfullscreen></iframe>
+
+    <script>
+        // Prendi l'ID del film dall'URL
+        const params = new URLSearchParams(window.location.search);
+        const movieId = params.get('id');
+        const type = params.get('type') || 'movie';
+
+        if (movieId) {
+            const iframe = document.getElementById('player');
+            const loading = document.getElementById('loading');
+
+            // Carica il film in iframe
+            iframe.src = `https://vixsrc.to/${type}/${movieId}`;
+
+            iframe.onload = function() {
+                loading.style.display = 'none';
+                iframe.style.display = 'block';
+            };
+        } else {
+            document.getElementById('loading').innerHTML = '<p style="color:#ff6b6b">Errore: Nessun film selezionato</p>';
+        }
+    </script>
+</body>
+</html>

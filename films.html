@@ -243,7 +243,7 @@
 
                 const year = film.year || 'N/A';
                 const rating = film.vote_average ? film.vote_average.toFixed(1) : '0.0';
-                const watchUrl = `https://vixsrc.to/movie/${film.tmdb_id}`;
+                const watchUrl = `player.html?id=${film.tmdb_id}&type=movie`;
 
                 card.innerHTML = `
                     ${posterHtml}
@@ -251,7 +251,7 @@
                         <div class="card-title" title="${film.title}">${film.title}</div>
                         <div class="card-year">${year}</div>
                         <div class="card-rating">* ${rating}</div>
-                        <a href="${watchUrl}" class="card-link" target="_blank">Guarda</a>
+                        <a href="${watchUrl}" class="card-link">Guarda</a>
                     </div>
                 `;
 
