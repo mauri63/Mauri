@@ -8,96 +8,113 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: #000;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
-
-        .back-btn {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 1000;
-            background: rgba(255,140,0,0.9);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: all 0.3s;
         }
 
-        .back-btn:hover {
-            background: #FF6B00;
-            transform: scale(1.05);
-        }
-
-        .player-frame {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .loading {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #FF8C00;
-            font-size: 18px;
+        .container {
             text-align: center;
+            padding: 40px;
         }
 
-        .loading .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255,140,0,0.2);
+        h1 {
+            color: #FFD93D;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255,140,0,0.2);
             border-top-color: #FF8C00;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 30px auto;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        p {
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF8C00, #FF6B00);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,140,0,0.4);
+        }
+
+        .back-link {
+            margin-top: 30px;
+            color: #888;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #FFD93D;
+        }
     </style>
 </head>
 <body>
-    <a href="films.html" class="back-btn">← Torna al Catalogo</a>
-
-    <div id="loading" class="loading">
+    <div class="container">
+        <h1>Lion Player</h1>
         <div class="spinner"></div>
-        <p>Caricamento film...</p>
+        <p>Apertura film in corso...</p>
+        <p id="countdown"></p>
+        <a href="films.html" class="back-link">← Torna al catalogo</a>
     </div>
 
-    <iframe id="player" class="player-frame" style="display:none;" allowfullscreen></iframe>
-
     <script>
-        // Prendi l'ID del film dall'URL
         const params = new URLSearchParams(window.location.search);
         const movieId = params.get('id');
         const type = params.get('type') || 'movie';
 
         if (movieId) {
-            const iframe = document.getElementById('player');
-            const loading = document.getElementById('loading');
+            const url = `https://vixsrc.to/${type}/${movieId}`;
 
-            // Carica il film in iframe
-            iframe.src = `https://vixsrc.to/${type}/${movieId}`;
+            // Apri automaticamente dopo 1 secondo
+            let count = 1;
+            const countdown = document.getElementById('countdown');
 
-            iframe.onload = function() {
-                loading.style.display = 'none';
-                iframe.style.display = 'block';
-            };
-        } else {
-            document.getElementById('loading').innerHTML = '<p style="color:#ff6b6b">Errore: Nessun film selezionato</p>';
+            const timer = setInterval(() => {
+                if (count <= 0) {
+                    clearInterval(timer);
+                    // Apri in fullscreen popup
+                    const w = screen.width;
+                    const h = screen.height;
+                    window.open(url, '_blank', `width=${w},height=${h},top=0,left=0,fullscreen=yes,menubar=no,toolbar=no,location=no,status=no`);
+                } else {
+                    count--;
+                }
+            }, 1000);
+
+            // Redirect immediato
+            setTimeout(() => {
+                window.location.href = url;
+            }, 1500);
         }
     </script>
 </body>
